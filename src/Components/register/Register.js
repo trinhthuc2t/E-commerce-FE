@@ -3,7 +3,7 @@ import {registerSchema} from "../../validate/validate";
 import {Link, useNavigate} from "react-router-dom";
 import Swal from "sweetalert2";
 import {ErrorMessage, Field, Form, Formik} from "formik";
-import RegisterService from "../../service/registerService";
+import LoginAndRegisterService from "../../service/loginAndRegisterService";
 
 const Register = () => {
     let navigate = useNavigate();
@@ -17,7 +17,7 @@ const Register = () => {
 
 
     const handleSubmit = (value) => {
-        RegisterService.register(value)
+        LoginAndRegisterService.register(value)
             .then(res => {
                 Swal.fire({
                     icon: 'success',

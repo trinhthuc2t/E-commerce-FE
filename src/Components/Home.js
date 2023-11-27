@@ -12,12 +12,16 @@ import './swiper.css';
 import {getAllCategory} from "../service/categoryService";
 import _ from "lodash";
 import Navbar from "./Navbar";
+import {Link} from "react-router-dom";
 
 const Home = () => {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
 
 
+const getAllProductsByCategory = (id) => {
+
+}
     useEffect(() => {
         getAllProducts().then(res => {
             setProducts(res.data.content)
@@ -54,13 +58,13 @@ const Home = () => {
                     >
                         {categories.map((c, index) => (
                             <SwiperSlide key={c} virtualIndex={index}>
-                                <div className="pb-1">
+                                <div className="pb-1" onClick={getAllProductsByCategory(c.id)}>
                                     <div className="border mb-4">
-                                        <a href="" className=" position-relative overflow-hidden mb-3">
+                                        <div className=" position-relative overflow-hidden mb-3">
                                             <img className="img-fluid" src={c.image}
                                                  style={{height: 200, width: "300px"}}
                                                  alt=""/>
-                                        </a>
+                                        </div>
                                         <h5 className="font-weight-semi-bold m-0 mb-3">{c.name}</h5>
                                     </div>
                                 </div>
@@ -265,7 +269,7 @@ const Home = () => {
                             {
                                 !_.isEmpty(products) ? products.map((produc, index) => {
                                     return (
-                                        <div className="col-lg-2 col-md-6 col-sm-12 pb-1">
+                                        <div className="col-lg-2 col-md-6 col-sm-12 pb-1" key={index}>
                                             <div className="card product-item border mb-4">
                                                 <div
                                                     className="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
@@ -295,7 +299,7 @@ const Home = () => {
 
 
                                     )
-                                }) : <h1>Null</h1>
+                                }) : <h1>Chưa có sản phẩm nào</h1>
                             }
 
 

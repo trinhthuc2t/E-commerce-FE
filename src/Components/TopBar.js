@@ -1,6 +1,6 @@
 import React from 'react';
 import "./text.css"
-import {FaRegUserCircle, FaShoppingCart} from "react-icons/fa";
+import {FaShoppingCart} from "react-icons/fa";
 import {IoHeart} from "react-icons/io5";
 import {RiLockPasswordLine} from "react-icons/ri";
 import {MdOutlineAccountCircle, MdOutlineChangeCircle} from "react-icons/md";
@@ -9,6 +9,9 @@ import {IoMdLogIn} from "react-icons/io";
 import {Link} from "react-router-dom";
 
 const TopBar = () => {
+const handleLogout =() =>{
+localStorage.removeItem("account");
+}
     return (
         <div className="container-fluid">
             <div className="row align-items-center py-3 pt-3">
@@ -59,9 +62,9 @@ const TopBar = () => {
                                 </a>
                             </li>
                             <li>
-                                <a className="dropdown-item d-flex align-items-center" href="#"><IoMdLogIn className='text-h'/>
+                                <Link to={"/login"} className="dropdown-item d-flex align-items-center" onClick={handleLogout}><IoMdLogIn className='text-h'/>
                                     <span className='ps-2'>Đăng xuất</span>
-                                </a>
+                                </Link>
                             </li>
                             <li>
                                 <Link to={"/login"} className="dropdown-item d-flex align-items-center" href="#"><IoMdLogIn className='text-h'/>

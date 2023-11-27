@@ -2,7 +2,10 @@ import axios from "axios";
 
 
 
-class RegisterService {
+class loginAndRegisterService {
+    static login(account){
+        return axios.post("http://localhost:8080/api/login", account)
+    }
     static register(account){
         return axios.post("http://localhost:8080/api/accounts/register", account)
     }
@@ -14,4 +17,4 @@ class RegisterService {
     }
 }
 
-export default RegisterService;
+export default loginAndRegisterService;
