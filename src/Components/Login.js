@@ -1,21 +1,21 @@
 import React, {useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import {ErrorMessage, Field, Form, Formik} from "formik";
-import {loginSchema} from "../validate/validate";
-import loginRegisterService from "../service/loginAndRegisterService";
-import {FaLock, FaRegUser} from "react-icons/fa";
+import {loginSchema} from "../Validate/validate";
+import loginRegisterService from "../Service/loginAndRegisterService";
+import { FaRegUser} from "react-icons/fa";
 import {IoMdEye, IoMdEyeOff} from "react-icons/io";
-// import {useDispatch} from "react-redux";
+import {TbLock} from "react-icons/tb";
+import {loginSuccess} from "../Redux/acction";
+import {useDispatch} from "react-redux";
 
 const Login = () => {
-    // const dispatch = useDispatch();
-    // useEffect(() => {
-    //     setShow(false);
-    // }, [])
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [checkPassword, setCheckPassword] = useState("");
     const [remember, setRemember] = useState(true);
+    const dispatch = useDispatch();
+
     const toggleShowPassword = () => {
         setShowPassword(!showPassword);
     };
@@ -27,12 +27,12 @@ const Login = () => {
                     if (remember) {
                         localStorage.setItem("account", JSON.stringify(res.data));
                     }
-                    // dispatch(saveAccount(res.data));
+                    dispatch(loginSuccess(res.data));
                     // setShow(true);
                     navigate("/");
                 } else {
                     // setShow(true);
-                    navigate("/contact-admin");
+                    navigate("/login");
                 }
             })
             .catch(err => {
@@ -40,7 +40,7 @@ const Login = () => {
             })
     }
     return (
-        <div className='container'>
+        <div className='container pt-100'>
             <div className='d-flex flex-column align-items-center'>
                 <Formik
                     initialValues={{
@@ -77,7 +77,7 @@ const Login = () => {
                                     <label htmlFor='password' className='form-label'>Mật khẩu</label>
                                     <div>
                                         <div style={{position: 'relative'}}>
-                                            <FaLock style={{
+                                            <TbLock style={{
                                                 position: 'absolute',
                                                 top: '50%',
                                                 transform: 'translateY(-50%)',
@@ -110,7 +110,7 @@ const Login = () => {
                                 </div>
                                 <div className='d-flex align-items-center my-3'>
                                     <div className='me-5'>
-                                        <input id='check-bok' type='checkbox' className='me-2'/>
+                                        <input id='check-bok' type='checkbox' className='me-2' checked={remember} onChange={()=> setRemember(!remember)}/>
                                         <label htmlFor='check-box'>Ghi nhớ đăng nhập</label>
                                     </div>
                                     <div>Quên mật khẩu</div>
@@ -123,7 +123,7 @@ const Login = () => {
                                 <button className='btn btn-primary mb-3'>Đăng nhập</button>
                             </div>
                             <div>
-                                <p>Bạn chưa có tài khoản? <Link to={"/register"}>Đăng ký</Link></p>
+                                <p>Bạn chưa có tài khoản? <Link to={"/Register"}>Đăng ký</Link></p>
                             </div>
                         </Form>)}
                 </Formik>

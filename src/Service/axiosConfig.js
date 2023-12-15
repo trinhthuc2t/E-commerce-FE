@@ -9,4 +9,4 @@ tokenAxios.interceptors.request.use(config => {
     }
     return config;
 })
-export default tokenAxios;
+export {tokenAxios};

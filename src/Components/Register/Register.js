@@ -1,9 +1,9 @@
 import React from 'react';
-import {registerSchema} from "../../validate/validate";
+import {registerSchema} from "../../Validate/validate";
 import {Link, useNavigate} from "react-router-dom";
 import Swal from "sweetalert2";
 import {ErrorMessage, Field, Form, Formik} from "formik";
-import LoginAndRegisterService from "../../service/loginAndRegisterService";
+import LoginAndRegisterService from "../../Service/loginAndRegisterService";
 
 const Register = () => {
     let navigate = useNavigate();
@@ -107,7 +107,7 @@ const Register = () => {
 
                                                 <div className="text-center text-muted mt-3 mb-2">
                                                     Bạn đã có tài khoản?
-                                                    <Link to={"/login"} className="fw-bold ms-2 text-h">
+                                                    <Link to={"/login"} className="fw-bold ms-2 text-color">
                                                         <u>Đăng nhập</u>
                                                     </Link>
                                                 </div>

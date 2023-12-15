@@ -4,39 +4,117 @@ import 'swiper/css/pagination';
 import './text.css';
 import {Virtual, Navigation, Pagination} from 'swiper/modules';
 import {Swiper, SwiperSlide} from 'swiper/react';
-import {getAllProducts} from "../service/productService";
+import {getAllProducts, getAllProductsByCategoryId, getProductByAll} from "../Service/productService";
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import './swiper.css';
-import {getAllCategory} from "../service/categoryService";
+import {getAllCategory} from "../Service/categoryService";
 import _ from "lodash";
 import Navbar from "./Navbar";
 import {Link} from "react-router-dom";
+import {BsFillCartPlusFill} from "react-icons/bs";
 
 const Home = () => {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
+    const [nameSearch, setNameSearch] = useState("");
+    const [minPrice, setMinPrice] = useState(0);
+    const [maxPrice, setMaxPrice] = useState(0);
+    const [colorName, setColorName] = useState("");
+    const [sizeName, setSizeName] = useState("");
+    const [page, setPage] = useState("");
+    const [sort, setSort] = useState("");
+    const [direction, setDirection] = useState("");
+    const [selectedOptionPrice, setSelectedOptionPrice] = useState('all');
 
 
-const getAllProductsByCategory = (id) => {
-
-}
     useEffect(() => {
+        getProductByAll(nameSearch, minPrice, maxPrice, colorName, sizeName, page, sort, direction).then(res => {
+            setProducts(res.data.content)
+        }).catch(err => console.log(err))
+    }, [nameSearch, minPrice, maxPrice, colorName, sizeName, page,sort,direction])
+
+
+    const handleNameSearch = (e) => {
+        setNameSearch(e.target.value)
+    }
+    const handlePriceSearch = (e) => {
+        const selectedValue = e.target.value;
+        switch (selectedValue) {
+            case 'all':
+                setMinPrice(0);
+                setMaxPrice(0);
+                break;
+            case '0-20':
+                setMinPrice(0);
+                setMaxPrice(20);
+                break;
+            case '20-50':
+                setMinPrice(20);
+                setMaxPrice(50);
+                break;
+            case '50-100':
+                setMinPrice(50);
+                setMaxPrice(100);
+                break;
+            case '100-120':
+                setMinPrice(100);
+                setMaxPrice(120);
+                break;
+            case '120':
+                setMinPrice(120);
+                setMaxPrice(0);
+                break;
+            default:
+                break;
+        }
+        setSelectedOptionPrice(selectedValue);
+
+    };
+
+    const handleColorNameSearch = (e) => {
+        setColorName(e.target.value)
+    }
+    const handleSort = (e) => {
+        setSort(e.target.value)
+    }
+    const handleDirection = (e) => {
+        setDirection(e.target.value)
+    }
+    const handleSizeNameSearch = (e) => {
+        setSizeName(e.target.value)
+    }
+    const getAllProductsByCategory = (id) => {
+        getAllProductsByCategoryId(id).then(res => {
+            setProducts(res.data.content)
+            console.log(res.data.content)
+        }).catch((err => {
+            console.log(err)
+        }))
+    }
+    const getAll = () => {
         getAllProducts().then(res => {
             setProducts(res.data.content)
-        }).catch((err) => {
-            console.log(err);
-        })
-
-    }, []);
+            console.log(res.data.content)
+        }).catch(err => console.log(err))
+    }
     useEffect(() => {
         getAllCategory().then(res => {
             setCategories(res.data)
-            console.log(res.data)
         }).catch((err) => {
             console.log(err);
         })
+    }, []);
+    useEffect(() => {
+        const defaultOption = document.getElementById('size-all');
+        defaultOption.checked = true;
+        setSizeName('');
+    }, []);
+    useEffect(() => {
+        const defaultOption = document.getElementById('color-all');
+        defaultOption.checked = true;
+        setColorName('');
     }, []);
     return (
         <div>
@@ -44,26 +122,31 @@ const getAllProductsByCategory = (id) => {
 
             {/*Categories Start*/}
             <div className="container-fluid pt-1">
+
                 <div className="row px-xl-5 pb-3">
                     <Swiper
                         modules={[Virtual, Navigation, Pagination]}
                         slidesPerView={5}
-                        centeredSlides={true}
+                        // centeredSlides={true}
                         spaceBetween={10}
                         pagination={{
                             type: 'bullets',
                         }}
+                        loop={true}
+                        autoplay={{delay: 1000}}
                         navigation={true}
                         virtual
                     >
-                        {categories.map((c, index) => (
+                        {!_.isEmpty(categories) && categories.map((c, index) => (
                             <SwiperSlide key={c} virtualIndex={index}>
-                                <div className="pb-1" onClick={getAllProductsByCategory(c.id)}>
-                                    <div className="border mb-4">
+                                <div className="pb-1" onClick={() => {
+                                    getAllProductsByCategory(c.id)
+                                }}>
+                                    <div className="btn border mb-4">
                                         <div className=" position-relative overflow-hidden mb-3">
                                             <img className="img-fluid" src={c.image}
                                                  style={{height: 200, width: "300px"}}
-                                                 alt=""/>
+                                                 alt="categories"/>
                                         </div>
                                         <h5 className="font-weight-semi-bold m-0 mb-3">{c.name}</h5>
                                     </div>
@@ -87,7 +170,9 @@ const getAllProductsByCategory = (id) => {
                             <h5 className="font-weight-semi-bold mb-4">Filter by price</h5>
                             <div className="d-flex align-items-center justify-content-between mb-3">
                                 <div>
-                                    <input type="checkbox" className="" checked id="price-all"/>
+                                    <input type="radio" name="price" id="price-all" value="all"
+                                           checked={selectedOptionPrice === 'all'}
+                                           onChange={handlePriceSearch}/>
                                     <label className="custom-control-label ms-3" htmlFor="price-all">All Price</label>
                                 </div>
                                 <span className="border rounded px-1">1000</span>
@@ -95,40 +180,45 @@ const getAllProductsByCategory = (id) => {
                             <div
                                 className=" d-flex align-items-center justify-content-between mb-3">
                                 <div>
-                                    <input type="checkbox" id="price-2"/>
-                                    <label className="custom-control-label ms-3" htmlFor="price-2">$0 - $100</label>
+                                    <input type="radio" name="price" id="price-2" value="0-20"
+                                           onChange={handlePriceSearch}/>
+                                    <label className="custom-control-label ms-3" htmlFor="price-2">$0 - $20</label>
                                 </div>
                                 <span className="border rounded px-1">150</span>
                             </div>
                             <div
                                 className="d-flex align-items-center justify-content-between mb-3">
                                 <div>
-                                    <input type="checkbox" id="price-3"/>
-                                    <label className="custom-control-label ms-3" htmlFor="price-3">$0 - $100</label>
+                                    <input type="radio" name="price" id="price-3" value="20-50"
+                                           onChange={handlePriceSearch}/>
+                                    <label className="custom-control-label ms-3" htmlFor="price-3">$20 - $50</label>
                                 </div>
                                 <span className="border rounded px-1">150</span>
                             </div>
                             <div
                                 className="d-flex align-items-center justify-content-between mb-3">
                                 <div>
-                                    <input type="checkbox" id="price-4"/>
-                                    <label className="custom-control-label ms-3" htmlFor="price-4">$0 - $100</label>
+                                    <input type="radio" name="price" id="price-4" value="50-100"
+                                           onChange={handlePriceSearch}/>
+                                    <label className="custom-control-label ms-3" htmlFor="price-4">$50 - $100</label>
                                 </div>
                                 <span className="border rounded px-1">150</span>
                             </div>
                             <div
                                 className="d-flex align-items-center justify-content-between mb-3">
                                 <div>
-                                    <input type="checkbox" id="price-5"/>
-                                    <label className="custom-control-label ms-3" htmlFor="price-5">$0 - $100</label>
+                                    <input type="radio" name="price" id="price-5" value="100-120"
+                                           onChange={handlePriceSearch}/>
+                                    <label className="custom-control-label ms-3" htmlFor="price-5">$100 - $120</label>
                                 </div>
                                 <span className="border rounded px-1">150</span>
                             </div>
                             <div
                                 className="d-flex align-items-center justify-content-between mb-3">
                                 <div>
-                                    <input type="checkbox" id="price-6"/>
-                                    <label className="custom-control-label ms-3" htmlFor="price-6">$0 - $100</label>
+                                    <input type="radio" name="price" id="price-6" value="120"
+                                           onChange={handlePriceSearch}/>
+                                    <label className="custom-control-label ms-3" htmlFor="price-6">Trên $120</label>
                                 </div>
                                 <span className="border rounded px-1">150</span>
                             </div>
@@ -142,15 +232,17 @@ const getAllProductsByCategory = (id) => {
                             <div
                                 className="d-flex align-items-center justify-content-between mb-3">
                                 <div>
-                                    <input type="checkbox" className="custom-control-input" checked id="color-all"/>
-                                    <label className="custom-control-label ms-3" htmlFor="price-all">All Color</label>
+                                    <input type="radio" name="color" className="custom-control-input"
+                                           id="color-all" value="" onChange={handleColorNameSearch}/>
+                                    <label className="custom-control-label ms-3" htmlFor="color-all">All Color</label>
                                 </div>
                                 <span className="border rounded px-1">1000</span>
                             </div>
                             <div
                                 className="d-flex align-items-center justify-content-between mb-3">
                                 <div>
-                                    <input type="checkbox" className="custom-control-input" id="color-1"/>
+                                    <input type="radio" name="color" className="custom-control-input" id="color-1"
+                                           value="Black" onChange={handleColorNameSearch}/>
                                     <label className="custom-control-label ms-3" htmlFor="color-1">Black</label>
                                 </div>
                                 <span className="border rounded px-1">1000</span>
@@ -158,7 +250,8 @@ const getAllProductsByCategory = (id) => {
                             <div
                                 className="d-flex align-items-center justify-content-between mb-3">
                                 <div>
-                                    <input type="checkbox" className="custom-control-input" id="color-2"/>
+                                    <input type="radio" name="color" className="custom-control-input" id="color-2"
+                                           value="White" onChange={handleColorNameSearch}/>
                                     <label className="custom-control-label ms-3" htmlFor="color-2">White</label>
                                 </div>
                                 <span className="border rounded px-1">1000</span>
@@ -166,7 +259,8 @@ const getAllProductsByCategory = (id) => {
                             <div
                                 className="d-flex align-items-center justify-content-between mb-3">
                                 <div>
-                                    <input type="checkbox" className="custom-control-input" id="color-3"/>
+                                    <input type="radio" name="color" className="custom-control-input" id="color-3"
+                                           value="Red" onChange={handleColorNameSearch}/>
                                     <label className="custom-control-label ms-3" htmlFor="color-3">Red</label>
                                 </div>
                                 <span className="border rounded px-1">1000</span>
@@ -174,7 +268,8 @@ const getAllProductsByCategory = (id) => {
                             <div
                                 className="d-flex align-items-center justify-content-between mb-3">
                                 <div>
-                                    <input type="checkbox" className="custom-control-input" id="color-4"/>
+                                    <input type="radio" name="color" className="custom-control-input" id="color-4"
+                                           value="Blue" onChange={handleColorNameSearch}/>
                                     <label className="custom-control-label ms-3" htmlFor="color-4">Blue</label>
                                 </div>
                                 <span className="border rounded px-1">1000</span>
@@ -182,7 +277,8 @@ const getAllProductsByCategory = (id) => {
                             <div
                                 className="d-flex align-items-center justify-content-between mb-3">
                                 <div>
-                                    <input type="checkbox" className="custom-control-input" id="color-5"/>
+                                    <input type="radio" name="color" className="custom-control-input" id="color-5"
+                                           value="Green" onChange={handleColorNameSearch}/>
                                     <label className="custom-control-label ms-3" htmlFor="color-5">Green</label>
                                 </div>
                                 <span className="border rounded px-1">1000</span>
@@ -196,42 +292,48 @@ const getAllProductsByCategory = (id) => {
                             <h5 className="font-weight-semi-bold mb-4">Filter by size</h5>
                             <div className="d-flex align-items-center justify-content-between mb-3">
                                 <div>
-                                    <input type="checkbox" className="custom-control-input" checked id="size-all"/>
+                                    <input type="radio" name="size" className="custom-control-input"
+                                           id="size-all" value="" onChange={handleSizeNameSearch}/>
                                     <label className="custom-control-label ms-3" htmlFor="size-all">All Size</label>
                                 </div>
                                 <span className=" border rounded px-1">1000</span>
                             </div>
                             <div className="d-flex align-items-center justify-content-between mb-3">
                                 <div>
-                                    <input type="checkbox" className="custom-control-input" id="size-1"/>
+                                    <input type="radio" name="size" className="custom-control-input" id="size-1"
+                                           value="XS" onChange={handleSizeNameSearch}/>
                                     <label className="custom-control-label ms-3" htmlFor="size-1">XS</label>
                                 </div>
                                 <span className=" border rounded px-1">1000</span>
                             </div>
                             <div className="d-flex align-items-center justify-content-between mb-3">
                                 <div>
-                                    <input type="checkbox" className="custom-control-input" id="size-2"/>
+                                    <input type="radio" name="size" className="custom-control-input" id="size-2"
+                                           value="S" onChange={handleSizeNameSearch}/>
                                     <label className="custom-control-label ms-3" htmlFor="size-2">S</label>
                                 </div>
                                 <span className=" border rounded px-1">1000</span>
                             </div>
                             <div className="d-flex align-items-center justify-content-between mb-3">
                                 <div>
-                                    <input type="checkbox" className="custom-control-input" id="size-3"/>
+                                    <input type="radio" name="size" className="custom-control-input" id="size-3"
+                                           value="L" onChange={handleSizeNameSearch}/>
                                     <label className="custom-control-label ms-3" htmlFor="size-3">L</label>
                                 </div>
                                 <span className=" border rounded px-1">1000</span>
                             </div>
                             <div className="d-flex align-items-center justify-content-between mb-3">
                                 <div>
-                                    <input type="checkbox" className="custom-control-input" id="size-4"/>
+                                    <input type="radio" name="size" className="custom-control-input" id="size-4"
+                                           value="XL" onChange={handleSizeNameSearch}/>
                                     <label className="custom-control-label ms-3" htmlFor="size-4">XL</label>
                                 </div>
                                 <span className=" border rounded px-1">1000</span>
                             </div>
                             <div className="d-flex align-items-center justify-content-between mb-3">
                                 <div>
-                                    <input type="checkbox" className="custom-control-input" id="size-5"/>
+                                    <input type="radio" name="size" className="custom-control-input" id="size-5"
+                                           value="XXL" onChange={handleSizeNameSearch}/>
                                     <label className="custom-control-label ms-3" htmlFor="size-5">XXL</label>
                                 </div>
                                 <span className=" border rounded px-1">1000</span>
@@ -244,22 +346,37 @@ const getAllProductsByCategory = (id) => {
 
                     {/*Shop Product Start*/}
                     <div className="col-lg-10 col-md-12">
+                        <div className='container'></div>
                         <div className="row pb-3">
-                            <div className="col-12 pb-1">
+                            <div className="pb-1">
                                 <div className="d-flex align-items-center justify-content-between mb-4">
-                                    <div className="input-group w-75">
-                                        <input type="text" className="form-control" placeholder="Search by name"/>
+                                    <div className="col-8">
+                                        <input type="text" className="form-control" placeholder="Search by name"
+                                               onChange={handleNameSearch}/>
                                     </div>
-                                    <div className="dropdown">
-                                        <button className="btn border px-5 dropdown-toggle" type="button"
+                                    <div className='col-4 ms-0'>
+                                        <button className='btn border rounded-3 px-2 mx-2' onClick={getAll}>
+                                            Tất cả sản phẩm
+                                        </button>
+                                        <button className="btn border dropdown-toggle px-2 mx-2" type="button"
                                                 id="dropdownMenuButton1" data-bs-toggle="dropdown"
                                                 aria-expanded="false">
-                                            Sort by
+                                            Sắp xếp
                                         </button>
                                         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                            <li><a className="dropdown-item" href="#">Latest</a></li>
-                                            <li><a className="dropdown-item" href="#">Popularity</a></li>
-                                            <li><a className="dropdown-item" href="#">Best Rating</a></li>
+                                            <li><button className="dropdown-item" value='sortTime' onClick={handleSort}>Sản phẩm mới</button></li>
+                                            <li><button className="dropdown-item" value='sortPrice'  onClick={handleSort}>Giá sản phẩm</button></li>
+                                            <li><a className="dropdown-item" href="#">Mua nhiều</a></li>
+                                            <li><a className="dropdown-item" href="#">Đánh giá</a></li>
+                                        </ul>
+                                        <button className="btn border dropdown-toggle px-2 mx-2" type="button"
+                                                id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                                aria-expanded="false">
+                                            Sắp xếp
+                                        </button>
+                                        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><button className="dropdown-item"  onClick={handleDirection}>Tăng dần</button></li>
+                                            <li><button className="dropdown-item"  onClick={handleDirection}>Giảm dần</button></li>
                                         </ul>
                                     </div>
 
@@ -267,32 +384,37 @@ const getAllProductsByCategory = (id) => {
                             </div>
 
                             {
-                                !_.isEmpty(products) ? products.map((produc, index) => {
+                                !_.isEmpty(products) ? products.map((product, index) => {
                                     return (
                                         <div className="col-lg-2 col-md-6 col-sm-12 pb-1" key={index}>
                                             <div className="card product-item border mb-4">
-                                                <div
-                                                    className="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                                                    <img className="img-fluid w-100" src={produc.thumbnail}
-                                                         style={{height: 200}} alt=""/>
-                                                </div>
-                                                <div
-                                                    className="card-body border-left border-right text-center p-0 pt-1 pb-1">
-                                                    <h6 className="text-truncate mb-1">{produc.name}</h6>
-                                                    <div className="d-flex justify-content-center">
-                                                        <h6>{produc.price}</h6>
-                                                        <h6 className="text-muted ml-2">
-                                                            <del>$123.00</del>
-                                                        </h6>
+                                                <Link to={`/product-detail/${product.id}`}
+                                                      className="btn text-dark p-0">
+                                                    <div
+                                                        className="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                                                        <img className="img-fluid w-100" src={product.thumbnail}
+                                                             style={{height: 200}} alt=""/>
                                                     </div>
-                                                </div>
-                                                <div
-                                                    className="card-footer d-flex justify-content-between bg-light border">
-                                                    <a href="" className="btn btn-sm text-dark p-0"><i
-                                                        className="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                                                    <a href="" className="btn btn-sm text-dark p-0"><i
-                                                        className="fas fa-shopping-cart text-primary mr-1"></i>Add To
-                                                        Cart</a>
+                                                    <div className="card-body border-left border-right text-center p-0">
+                                                        <h6 className="text-truncate mb-1">{product.name}</h6>
+                                                        <div className="d-flex justify-content-center">
+                                                            <h6>{product.price}</h6>
+                                                            <h6 className="text-muted ml-2">
+                                                                <del>$123.00</del>
+                                                            </h6>
+                                                        </div>
+                                                    </div>
+                                                </Link>
+                                                <div className="card-footer bg-light border">
+                                                    {/*<Link to={`/product-detail/${product.id}`}*/}
+                                                    {/*      className="btn btn-sm text-dark p-0">*/}
+                                                    {/*    <FaRegEye className='text-color me-1'/>Chi tiết</Link>*/}
+                                                    <a href=""
+                                                       className="btn btn-sm text-dark p-0 ps-1 d-flex align-items-center">
+                                                        <BsFillCartPlusFill
+                                                            className='text-color text-18 text-18 me-1'/>
+                                                        <span className='text-18'>Thêm giỏ hàng</span>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>

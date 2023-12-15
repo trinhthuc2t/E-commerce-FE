@@ -1,7 +1,7 @@
 import * as Yup from "yup";
-import LoginAndRegisterService from "../service/loginAndRegisterService";
+import LoginAndRegisterService from "../Service/loginAndRegisterService";
 import {value} from "lodash/seq";
-import loginAndRegisterService from "../service/loginAndRegisterService";
+import loginAndRegisterService from "../Service/loginAndRegisterService";
 
 
 const registerSchema = Yup.object({

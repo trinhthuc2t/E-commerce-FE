@@ -5,33 +5,33 @@ import {FaExchangeAlt, FaPhoneVolume, FaShippingFast} from "react-icons/fa";
 const Navbar = () => {
     return (
         <div>
-            <div className="container-fluid mb-5">
+            <div className="container-fluid mb-5 pt-100">
                 <div className="row border-top px-xl-5">
                     <div className="col-lg-3 pt-4">
                         <div className="row px-xl-5 pb-3 d-flex flex-column">
                             <div className="pb-1">
                                 <div className="d-flex align-items-center border mb-4 p-3">
-                                    <h1 className="px-4"><IoCheckmarkDone className='text-h'/></h1>
+                                    <h1 className="px-4"><IoCheckmarkDone className='text-color'/></h1>
                                     <h5 className="m-0">Quality Product</h5>
                                 </div>
                             </div>
                             <div className="pb-1">
                                 <div className="d-flex align-items-center border mb-4 p-3">
-                                    <h1 className="px-4"><FaShippingFast className='text-h'/>
+                                    <h1 className="px-4"><FaShippingFast className='text-color'/>
                                     </h1>
                                     <h5 className="font-weight-semi-bold m-0">Free Shipping</h5>
                                 </div>
                             </div>
                             <div className="pb-1">
                                 <div className="d-flex align-items-center border mb-4 p-3">
-                                    <h1 className="px-4"><FaExchangeAlt className='text-h'/>
+                                    <h1 className="px-4"><FaExchangeAlt className='text-color'/>
                                     </h1>
                                     <h5 className="font-weight-semi-bold m-0">14-Day Return</h5>
                                 </div>
                             </div>
                             <div className="pb-1">
                                 <div className="d-flex align-items-center border mb-4 p-3">
-                                    <h1 className="px-4"><FaPhoneVolume className='text-h'/>
+                                    <h1 className="px-4"><FaPhoneVolume className='text-color'/>
                                     </h1>
                                     <h5 className="font-weight-semi-bold m-0">24/7 Support</h5>
                                 </div>

@@ -1,13 +1,37 @@
-.text-h{
-    color: #D19C97;
+/*.text-color{*/
+/*    color: #D19C97;*/
+/*}*/
+.text-color{
+    color: red;
 }
-.text-icon{
+.text-30{
     font-size: 30px;
-    color: #D19C97;
+}
+.text-32{
+    font-size: 32px;
+}
+.text-28{
+    font-size: 28px;
+}
+.text-24{
+    font-size: 24px;
 }
 .img-banner{
     height: 450px;
 }
 .p-30{
     padding: 30px;
+}
+.pt-100{
+    padding-top: 100px;
+}
+.background-cl{
+    background-color:#D19C97 ;
+}
+
+.text-18{
+    font-size: 18px;
+}
+.text-16{
+    font-size: 16px;
 }
