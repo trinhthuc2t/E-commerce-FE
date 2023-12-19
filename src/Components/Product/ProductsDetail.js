@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {getAllImageByProductId, getProductById} from "../Service/productService";
+import {getAllImageByProductId, getProductById} from "../../Service/productService";
 import {useParams} from "react-router-dom";
 import _ from "lodash";
 import {SlMinus, SlPlus} from "react-icons/sl";

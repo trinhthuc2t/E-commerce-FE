@@ -6,8 +6,8 @@ import loginRegisterService from "../Service/loginAndRegisterService";
 import { FaRegUser} from "react-icons/fa";
 import {IoMdEye, IoMdEyeOff} from "react-icons/io";
 import {TbLock} from "react-icons/tb";
-import {loginSuccess} from "../Redux/acction";
 import {useDispatch} from "react-redux";
+import {setUserLogin} from "../features/auth/authSlice";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -19,7 +19,6 @@ const Login = () => {
     const toggleShowPassword = () => {
         setShowPassword(!showPassword);
     };
-
     const login = (value) => {
         loginRegisterService.login(value)
             .then(res => {
@@ -27,7 +26,7 @@ const Login = () => {
                     if (remember) {
                         localStorage.setItem("account", JSON.stringify(res.data));
                     }
-                    dispatch(loginSuccess(res.data));
+                    dispatch(setUserLogin(res.data))
                     // setShow(true);
                     navigate("/");
                 } else {
@@ -50,7 +49,6 @@ const Login = () => {
                     validationSchema={loginSchema}
                     onSubmit={values => {
                         login(values)
-                        console.log(values)
                     }}>
                     {({values}) => (
                         <Form>

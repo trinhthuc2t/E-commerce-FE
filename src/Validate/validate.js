@@ -1,6 +1,5 @@
 import * as Yup from "yup";
 import LoginAndRegisterService from "../Service/loginAndRegisterService";
-import {value} from "lodash/seq";
 import loginAndRegisterService from "../Service/loginAndRegisterService";
 
 
