@@ -11,6 +11,7 @@ import Message from "./Components/Message";
 import Notification from "./Components/Notification";
 import AccountDetail from "./Components/Register/AccountDetail";
 import ProductByShop from "./Components/Product/ProductByShop";
+import EditProduct from "./Components/Product/EditProduct";
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
                     <Route path={"message"} element={<Message/>}/>
                     <Route path={"notification"} element={<Notification/>}/>
                     <Route path={"shop-owner"} element={<ProductByShop/>}/>
+                    <Route path={"edit/:productId"} element={<EditProduct/>}/>
                 </Route>
             </Routes>
             <Footer/>

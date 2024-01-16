@@ -14,6 +14,7 @@ import _ from "lodash";
 import Navbar from "./Navbar";
 import {Link} from "react-router-dom";
 import {BsFillCartPlusFill} from "react-icons/bs";
+import {FaRegEye} from "react-icons/fa";
 
 const Home = () => {
     const [products, setProducts] = useState([]);
@@ -21,19 +22,19 @@ const Home = () => {
     const [nameSearch, setNameSearch] = useState("");
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(0);
-    const [colorName, setColorName] = useState("");
-    const [sizeName, setSizeName] = useState("");
+    const [colorId, setColorId] = useState(0);
+    const [sizeId, setSizeId] = useState(0);
     const [page, setPage] = useState("");
     const [sort, setSort] = useState("");
     const [direction, setDirection] = useState("");
     const [selectedOptionPrice, setSelectedOptionPrice] = useState('all');
 
-
     useEffect(() => {
-        getProductByAll(nameSearch, minPrice, maxPrice, colorName, sizeName, page, sort, direction).then(res => {
+        getProductByAll(nameSearch, minPrice, maxPrice, colorId, sizeId, page, sort, direction).then(res => {
             setProducts(res.data.content)
+            console.log(res.data.content)
         }).catch(err => console.log(err))
-    }, [nameSearch, minPrice, maxPrice, colorName, sizeName, page,sort,direction])
+    }, [nameSearch, minPrice, maxPrice, colorId, sizeId, page, sort, direction])
 
 
     const handleNameSearch = (e) => {
@@ -74,7 +75,7 @@ const Home = () => {
     };
 
     const handleColorNameSearch = (e) => {
-        setColorName(e.target.value)
+        setColorId(e.target.value)
     }
     const handleSort = (e) => {
         setSort(e.target.value)
@@ -83,7 +84,7 @@ const Home = () => {
         setDirection(e.target.value)
     }
     const handleSizeNameSearch = (e) => {
-        setSizeName(e.target.value)
+        setSizeId(e.target.value)
     }
     const getAllProductsByCategory = (id) => {
         getAllProductsByCategoryId(id).then(res => {
@@ -93,12 +94,8 @@ const Home = () => {
             console.log(err)
         }))
     }
-    const getAll = () => {
-        getAllProducts().then(res => {
-            setProducts(res.data.content)
-            console.log(res.data.content)
-        }).catch(err => console.log(err))
-    }
+
+
     useEffect(() => {
         getAllCategory().then(res => {
             setCategories(res.data)
@@ -109,12 +106,12 @@ const Home = () => {
     useEffect(() => {
         const defaultOption = document.getElementById('size-all');
         defaultOption.checked = true;
-        setSizeName('');
+        setSizeId(0);
     }, []);
     useEffect(() => {
         const defaultOption = document.getElementById('color-all');
         defaultOption.checked = true;
-        setColorName('');
+        setColorId(0);
     }, []);
     return (
         <div>
@@ -233,7 +230,7 @@ const Home = () => {
                                 className="d-flex align-items-center justify-content-between mb-3">
                                 <div>
                                     <input type="radio" name="color" className="custom-control-input"
-                                           id="color-all" value="" onChange={handleColorNameSearch}/>
+                                           id="color-all" value="0" onChange={handleColorNameSearch}/>
                                     <label className="custom-control-label ms-3" htmlFor="color-all">All Color</label>
                                 </div>
                                 <span className="border rounded px-1">1000</span>
@@ -242,7 +239,7 @@ const Home = () => {
                                 className="d-flex align-items-center justify-content-between mb-3">
                                 <div>
                                     <input type="radio" name="color" className="custom-control-input" id="color-1"
-                                           value="Black" onChange={handleColorNameSearch}/>
+                                           value="1" onChange={handleColorNameSearch}/>
                                     <label className="custom-control-label ms-3" htmlFor="color-1">Black</label>
                                 </div>
                                 <span className="border rounded px-1">1000</span>
@@ -251,7 +248,7 @@ const Home = () => {
                                 className="d-flex align-items-center justify-content-between mb-3">
                                 <div>
                                     <input type="radio" name="color" className="custom-control-input" id="color-2"
-                                           value="White" onChange={handleColorNameSearch}/>
+                                           value="2" onChange={handleColorNameSearch}/>
                                     <label className="custom-control-label ms-3" htmlFor="color-2">White</label>
                                 </div>
                                 <span className="border rounded px-1">1000</span>
@@ -260,7 +257,7 @@ const Home = () => {
                                 className="d-flex align-items-center justify-content-between mb-3">
                                 <div>
                                     <input type="radio" name="color" className="custom-control-input" id="color-3"
-                                           value="Red" onChange={handleColorNameSearch}/>
+                                           value="3" onChange={handleColorNameSearch}/>
                                     <label className="custom-control-label ms-3" htmlFor="color-3">Red</label>
                                 </div>
                                 <span className="border rounded px-1">1000</span>
@@ -269,7 +266,7 @@ const Home = () => {
                                 className="d-flex align-items-center justify-content-between mb-3">
                                 <div>
                                     <input type="radio" name="color" className="custom-control-input" id="color-4"
-                                           value="Blue" onChange={handleColorNameSearch}/>
+                                           value="4" onChange={handleColorNameSearch}/>
                                     <label className="custom-control-label ms-3" htmlFor="color-4">Blue</label>
                                 </div>
                                 <span className="border rounded px-1">1000</span>
@@ -277,7 +274,7 @@ const Home = () => {
                             <div
                                 className="d-flex align-items-center justify-content-between mb-3">
                                 <div>
-                                    <input type="radio" name="color" className="custom-control-input" id="color-5"
+                                    <input type="radio" name="5" className="custom-control-input" id="color-5"
                                            value="Green" onChange={handleColorNameSearch}/>
                                     <label className="custom-control-label ms-3" htmlFor="color-5">Green</label>
                                 </div>
@@ -293,7 +290,7 @@ const Home = () => {
                             <div className="d-flex align-items-center justify-content-between mb-3">
                                 <div>
                                     <input type="radio" name="size" className="custom-control-input"
-                                           id="size-all" value="" onChange={handleSizeNameSearch}/>
+                                           id="size-all" value="0" onChange={handleSizeNameSearch}/>
                                     <label className="custom-control-label ms-3" htmlFor="size-all">All Size</label>
                                 </div>
                                 <span className=" border rounded px-1">1000</span>
@@ -301,7 +298,7 @@ const Home = () => {
                             <div className="d-flex align-items-center justify-content-between mb-3">
                                 <div>
                                     <input type="radio" name="size" className="custom-control-input" id="size-1"
-                                           value="XS" onChange={handleSizeNameSearch}/>
+                                           value="5" onChange={handleSizeNameSearch}/>
                                     <label className="custom-control-label ms-3" htmlFor="size-1">XS</label>
                                 </div>
                                 <span className=" border rounded px-1">1000</span>
@@ -309,7 +306,7 @@ const Home = () => {
                             <div className="d-flex align-items-center justify-content-between mb-3">
                                 <div>
                                     <input type="radio" name="size" className="custom-control-input" id="size-2"
-                                           value="S" onChange={handleSizeNameSearch}/>
+                                           value="4" onChange={handleSizeNameSearch}/>
                                     <label className="custom-control-label ms-3" htmlFor="size-2">S</label>
                                 </div>
                                 <span className=" border rounded px-1">1000</span>
@@ -317,7 +314,7 @@ const Home = () => {
                             <div className="d-flex align-items-center justify-content-between mb-3">
                                 <div>
                                     <input type="radio" name="size" className="custom-control-input" id="size-3"
-                                           value="L" onChange={handleSizeNameSearch}/>
+                                           value="3" onChange={handleSizeNameSearch}/>
                                     <label className="custom-control-label ms-3" htmlFor="size-3">L</label>
                                 </div>
                                 <span className=" border rounded px-1">1000</span>
@@ -325,7 +322,7 @@ const Home = () => {
                             <div className="d-flex align-items-center justify-content-between mb-3">
                                 <div>
                                     <input type="radio" name="size" className="custom-control-input" id="size-4"
-                                           value="XL" onChange={handleSizeNameSearch}/>
+                                           value="2" onChange={handleSizeNameSearch}/>
                                     <label className="custom-control-label ms-3" htmlFor="size-4">XL</label>
                                 </div>
                                 <span className=" border rounded px-1">1000</span>
@@ -333,7 +330,7 @@ const Home = () => {
                             <div className="d-flex align-items-center justify-content-between mb-3">
                                 <div>
                                     <input type="radio" name="size" className="custom-control-input" id="size-5"
-                                           value="XXL" onChange={handleSizeNameSearch}/>
+                                           value="1" onChange={handleSizeNameSearch}/>
                                     <label className="custom-control-label ms-3" htmlFor="size-5">XXL</label>
                                 </div>
                                 <span className=" border rounded px-1">1000</span>
@@ -355,7 +352,7 @@ const Home = () => {
                                                onChange={handleNameSearch}/>
                                     </div>
                                     <div className='col-4 ms-0'>
-                                        <button className='btn border rounded-3 px-2 mx-2' onClick={getAll}>
+                                        <button className='btn border rounded-3 px-2 mx-2' >
                                             Tất cả sản phẩm
                                         </button>
                                         <button className="btn border dropdown-toggle px-2 mx-2" type="button"
@@ -364,8 +361,16 @@ const Home = () => {
                                             Sắp xếp
                                         </button>
                                         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                            <li><button className="dropdown-item" value='sortTime' onClick={handleSort}>Sản phẩm mới</button></li>
-                                            <li><button className="dropdown-item" value='sortPrice'  onClick={handleSort}>Giá sản phẩm</button></li>
+                                            <li>
+                                                <button className="dropdown-item" value='sortTime'
+                                                        onClick={handleSort}>Sản phẩm mới
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button className="dropdown-item" value='sortPrice'
+                                                        onClick={handleSort}>Giá sản phẩm
+                                                </button>
+                                            </li>
                                             <li><a className="dropdown-item" href="#">Mua nhiều</a></li>
                                             <li><a className="dropdown-item" href="#">Đánh giá</a></li>
                                         </ul>
@@ -375,8 +380,14 @@ const Home = () => {
                                             Sắp xếp
                                         </button>
                                         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                            <li><button className="dropdown-item"  onClick={handleDirection}>Tăng dần</button></li>
-                                            <li><button className="dropdown-item"  onClick={handleDirection}>Giảm dần</button></li>
+                                            <li>
+                                                <button className="dropdown-item" onClick={handleDirection}>Tăng dần
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button className="dropdown-item" onClick={handleDirection}>Giảm dần
+                                                </button>
+                                            </li>
                                         </ul>
                                     </div>
 
@@ -406,20 +417,15 @@ const Home = () => {
                                                     </div>
                                                 </Link>
                                                 <div className="card-footer bg-light border">
-                                                    {/*<Link to={`/product-detail/${product.id}`}*/}
-                                                    {/*      className="btn btn-sm text-dark p-0">*/}
-                                                    {/*    <FaRegEye className='text-color me-1'/>Chi tiết</Link>*/}
-                                                    <a href=""
-                                                       className="btn btn-sm text-dark p-0 ps-1 d-flex align-items-center">
+                                                    <div
+                                                         className="btn btn-sm text-dark p-0 ps-1 d-flex align-items-center">
                                                         <BsFillCartPlusFill
                                                             className='text-color text-18 text-18 me-1'/>
                                                         <span className='text-18'>Thêm giỏ hàng</span>
-                                                    </a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-
-
                                     )
                                 }) : <h1>Chưa có sản phẩm nào</h1>
                             }

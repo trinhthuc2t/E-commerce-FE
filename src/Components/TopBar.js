@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import "./text.css"
 import {FaFacebookMessenger} from "react-icons/fa";
-import { IoMenu, IoNotifications} from "react-icons/io5";
+import {IoMenu, IoNotifications} from "react-icons/io5";
 import {RiLockPasswordLine} from "react-icons/ri";
 import {AiOutlineInfoCircle} from "react-icons/ai";
 import {IoIosHeart, IoMdLogIn} from "react-icons/io";
@@ -19,6 +19,8 @@ const TopBar = () => {
         localStorage.removeItem("account");
         dispatch(setLogout());
     }
+
+    const cart = JSON.parse(localStorage.getItem('cart'));
     return (
 
         <div className="container-fluid fixed-top bg-light ">
@@ -38,7 +40,7 @@ const TopBar = () => {
                     <div className='d-flex justify-content-ecenter me-3 mt-2'>
                         <div className=" position-relative me-3">
                             <BsCartCheckFill className='text-color text-28'/> <span
-                            className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+                            className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{_.isEmpty(cart) ? 0 : cart.length}</span>
                         </div>
                         <div className=" position-relative me-3">
                             <IoIosHeart className='text-color text-30'/> <span
@@ -56,48 +58,44 @@ const TopBar = () => {
                     <div className="btn border rounded-5">
                             <span className="dropdown-toggle text-nav text-color" role="button"
                                   id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src={!_.isEmpty(account) ? account.avatar : avt} width={40} height={40} className='border rounded-circle my-1' alt=""/>
+                                <img src={!_.isEmpty(account) ? account.avatar : avt} width={40} height={40}
+                                     className='border rounded-circle my-1' alt=""/>
                                <IoMenu className='text-32'/>
                             </span>
 
                         <ul className="dropdown-menu mt-3" aria-labelledby="dropdownMenuLink">
-                            <li>
-                                <a className="dropdown-item d-flex align-items-center" href="#">
-                                    <RiLockPasswordLine className='text-color'/>
-                                    <span className='ps-2'>Đổi mật khẩu</span>
-                                </a>
-                            </li>
-                            <li>
-                                <Link to={"/profile/information"} className="dropdown-item d-flex align-items-center"
-                                   href="#"><AiOutlineInfoCircle className='text-color'/>
-                                    <span className='ps-2'>Thông tin cá nhân</span>
-                                </Link>
-                            </li>
-                            {/*<li>*/}
-                            {/*    <a className="dropdown-item d-flex align-items-center"*/}
-                            {/*       href="#"><MdOutlineChangeCircle className='text-color'/>*/}
-                            {/*        <span className='ps-2'>Đổi thông tin</span>*/}
-                            {/*    </a>*/}
-                            {/*</li>*/}
-                            <li>
-                                <Link to={"/login"} className="dropdown-item d-flex align-items-center"
-                                      onClick={handleLogout}><IoMdLogIn className='text-color'/>
-                                    <span className='ps-2'>Đăng xuất</span>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to={"/login"} className="dropdown-item d-flex align-items-center"
-                                      href="#"><IoMdLogIn className='text-color'/>
-                                    <span className='ps-2'>Đăng nhập</span>
-                                </Link>
-                            </li>
+
+                            {!_.isEmpty(account) ?
+                                <>
+                                    <li>
+                                        <a className="dropdown-item d-flex align-items-center" href="#">
+                                            <RiLockPasswordLine className='text-color'/>
+                                            <span className='ps-2'>Đổi mật khẩu</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <Link to={"/profile/information"}
+                                              className="dropdown-item d-flex align-items-center"
+                                              href="#"><AiOutlineInfoCircle className='text-color'/>
+                                            <span className='ps-2'>Thông tin cá nhân</span>
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to={"/login"} className="dropdown-item d-flex align-items-center"
+                                              onClick={handleLogout}><IoMdLogIn className='text-color'/>
+                                            <span className='ps-2'>Đăng xuất</span>
+                                        </Link>
+                                    </li>
+                                </> :
+                                <li>
+                                    <Link to={"/login"} className="dropdown-item d-flex align-items-center"
+                                          href="#"><IoMdLogIn className='text-color'/>
+                                        <span className='ps-2'>Đăng nhập</span>
+                                    </Link>
+                                </li>}
+
                         </ul>
                     </div>
-
-
-                    {/*<a href="" className="btn border">*/}
-                    {/*    <FaRegUserCircle className='text-color text-30'/>*/}
-                    {/*</a>*/}
                 </div>
             </div>
         </div>

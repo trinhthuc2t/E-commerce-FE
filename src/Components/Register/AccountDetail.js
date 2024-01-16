@@ -18,6 +18,7 @@ const AccountDetail = () => {
     const dispatch = useDispatch();
 
     const [account, setAccount] = useState(accountLogin)
+
     const [wards, setWards] = useState([])
     const [districts, setDistricts] = useState([])
     const [provinces, setProvinces] = useState([])
@@ -56,8 +57,7 @@ const AccountDetail = () => {
                      showConfirmButton: false,
                      timer: 1500
                  })
-                 // dispatch(editAccountRedux(account));
-                 dispatch(editAccountRedux(account))
+                 dispatch(editAccountRedux(account));
                  localStorage.setItem("account", JSON.stringify(updateAccount))
 
              })
@@ -85,10 +85,6 @@ const AccountDetail = () => {
             });
     };
 
-    useEffect(() => {
-        console.log(accountLogin)
-        setAccount(accountLogin)
-    }, [accountLogin])
 
     useEffect(() => {
         getAllProvinces().then(response => {
@@ -252,66 +248,66 @@ const AccountDetail = () => {
                                             <ErrorMessage name="email" className="text-danger mt-1"
                                                           component="div"/>
                                         </div>
-                                        <div className="d-flex align-items-center text-18 mb-2"
-                                             style={{textAlign: "left"}}>
-                                            <div className="col-2">
-                                                <span className='text-18'>Địa chỉ</span>
-                                            </div>
-                                            <div className="col-10">
-                                                <div className='row'>
-                                                    <div className="col-3">
-                                                        <Field as="select" className="form-select" name="province"
-                                                               id="province">
-                                                            <option value="">{accountLogin.province}</option>
-                                                            {!_.isEmpty(provinces) && provinces.map(province => (
-                                                                <option key={province.ProvinceID}
-                                                                        value={province.ProvinceName}>
-                                                                    {province.ProvinceName}
-                                                                </option>
-                                                            ))}
 
-                                                        </Field>
-                                                    </div>
+                                            <div className="d-flex align-items-center text-18 mb-2"
+                                                 style={{textAlign: "left"}}>
+                                                <div className="col-2">
+                                                    <span className='text-18'>Địa chỉ</span>
+                                                </div>
+                                                <div className="col-10">
+                                                    <div className='row'>
+                                                        <div className="col-3">
+                                                            <Field as="select" className="form-select" name="province"
+                                                                   id="province">
+                                                                <option value="">{accountLogin.province}</option>
+                                                                {!_.isEmpty(provinces) && provinces.map(province => (
+                                                                    <option key={province.ProvinceID}
+                                                                            value={province.ProvinceName}>
+                                                                        {province.ProvinceName}
+                                                                    </option>
+                                                                ))}
 
-                                                    <div className="col-3 ">
-                                                        <Field as="select" className="form-select" id="district"
-                                                               name="district">
-                                                            <option value="">{accountLogin.district}</option>
-                                                            {!_.isEmpty(districts) && districts.map(district => (
-                                                                <option key={district.DistrictID}
-                                                                        value={district.DistrictName}>
-                                                                    {district.DistrictName}
-                                                                </option>
-                                                            ))}
-                                                        </Field>
-                                                    </div>
+                                                            </Field>
+                                                        </div>
 
-                                                    <div className="col-3">
-                                                        <Field as="select" className="form-select" id="ward"
-                                                               name="ward">
-                                                            <option value="">{accountLogin.ward}</option>
-                                                            {!_.isEmpty(wards) && wards.map(ward => (
-                                                                <option key={ward.WardCode} value={ward.WardName}>
-                                                                    {ward.WardName}
-                                                                </option>
-                                                            ))}
-                                                        </Field>
-                                                    </div>
+                                                        <div className="col-3 ">
+                                                            <Field as="select" className="form-select" id="district"
+                                                                   name="district">
+                                                                <option value="">{accountLogin.district}</option>
+                                                                {!_.isEmpty(districts) && districts.map(district => (
+                                                                    <option key={district.DistrictID}
+                                                                            value={district.DistrictName}>
+                                                                        {district.DistrictName}
+                                                                    </option>
+                                                                ))}
+                                                            </Field>
+                                                        </div>
+
+                                                        <div className="col-3">
+                                                            <Field as="select" className="form-select" id="ward"
+                                                                   name="ward">
+                                                                <option value="">{accountLogin.ward}</option>
+                                                                {!_.isEmpty(wards) && wards.map(ward => (
+                                                                    <option key={ward.WardCode} value={ward.WardName}>
+                                                                        {ward.WardName}
+                                                                    </option>
+                                                                ))}
+                                                            </Field>
+                                                        </div>
 
 
-                                                    <div className="col-3">
-                                                        <Field type="text" id="address" name="address"
-                                                               className="form-control form-control py-2"
-                                                               onInput={handleValueInput}/>
+                                                        <div className="col-3">
+                                                            <Field type="text" id="address" name="address"
+                                                                   className="form-control form-control py-2"
+                                                                   onInput={handleValueInput}/>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
 
+                                            <ErrorMessage name="address" className="text-danger mt-1"
+                                                          component="div"/>
                                         </div>
-
-                                        <ErrorMessage name="address" className="text-danger mt-1"
-                                                      component="div"/>
-                                    </div>
 
                                     <div className="d-flex justify-content-center mt-3">
                                         <button type="submit" className="btn btn-primary btn-lg mx-3 px-5">
@@ -325,13 +321,12 @@ const AccountDetail = () => {
                                 </Form>
                             )}
                         </Formik>
-
                     </div>
+                </div>
+                <hr/>
+                <div>
 
                 </div>
-
-                <hr/>
-
             </div>
         </>
     );
