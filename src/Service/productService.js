@@ -11,7 +11,6 @@ const getAllImageByProductId = (id) => {
 }
 
 const getProductsByOwner = (id, colorId, sizeId,nameSearch, page) => {
-    console.log(`${API_URL}/by-owner/${id}?colorId=${colorId}&sizeId=${sizeId}&nameSearch=${nameSearch}&page=${page}`)
     return axios.get(`${API_URL}/by-owner/${id}?colorId=${colorId}&sizeId=${sizeId}&nameSearch=${nameSearch}&page=${page}`)
 }
 
@@ -23,8 +22,6 @@ const getProductById = (id, colorId, sizeId) => {
     return axios.get(`${API_URL}/${id}?colorId=${colorId}&sizeId=${sizeId}`)
 }
 const getProductByAll = (nameSearch, minPrice, maxPrice, colorId, sizeId, page, sort, direction) => {
-    console.log(`${API_URL}/search-all?nameSearch=${nameSearch}&minPrice=${minPrice}&maxPrice=${maxPrice}&colorId=${colorId}&sizeId=${sizeId}&page=${page}&sort=${sort}&direction=${direction}`)
-
     return axios.get(`${API_URL}/search-all?nameSearch=${nameSearch}&minPrice=${minPrice}&maxPrice=${maxPrice}&colorId=${colorId}&sizeId=${sizeId}&page=${page}&sort=${sort}&direction=${direction}`)
 }
 export {

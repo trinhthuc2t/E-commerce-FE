@@ -12,6 +12,7 @@ import Notification from "./Components/Notification";
 import AccountDetail from "./Components/Register/AccountDetail";
 import ProductByShop from "./Components/Product/ProductByShop";
 import EditProduct from "./Components/Product/EditProduct";
+import Cart from "./Components/Product/Cart";
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
                 <Route path={"/product-detail/:productId"} element={<ProductsDetail/>}/>
                 <Route path={"/login"} element={<Login/>}/>
                 <Route path={"/Register"} element={<Register/>}/>
+                <Route path={"/cart"} element={<Cart/>}/>
                 <Route path={"/profile/"} element={<Profile/>}>
                     <Route path={"information"} element={<AccountDetail/>}/>
                     <Route path={"message"} element={<Message/>}/>

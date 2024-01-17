@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import "./text.css"
 import {FaFacebookMessenger} from "react-icons/fa";
 import {IoMenu, IoNotifications} from "react-icons/io5";
@@ -10,9 +10,11 @@ import {BsCartCheckFill} from "react-icons/bs";
 import {useDispatch, useSelector} from "react-redux";
 import {setLogout} from "../features/auth/authSlice";
 import _ from "lodash";
+import CartSmall from "./Product/CartSmall";
 
 const TopBar = () => {
     const account = useSelector(state => state.auth.userLogin)
+    const carts = useSelector(state => state.cart.carts)
     const dispatch = useDispatch();
     const avt = 'https://hienthao.com/wp-content/uploads/2023/05/c6e56503cfdd87da299f72dc416023d4-736x620.jpg'
     const handleLogout = () => {
@@ -20,7 +22,6 @@ const TopBar = () => {
         dispatch(setLogout());
     }
 
-    const cart = JSON.parse(localStorage.getItem('cart'));
     return (
 
         <div className="container-fluid fixed-top bg-light ">
@@ -38,10 +39,15 @@ const TopBar = () => {
                 </div>
                 <div className="col-lg-3 col-6 text-right d-flex align-items-center pe-5">
                     <div className='d-flex justify-content-ecenter me-3 mt-2'>
-                        <div className=" position-relative me-3">
-                            <BsCartCheckFill className='text-color text-28'/> <span
-                            className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{_.isEmpty(cart) ? 0 : cart.length}</span>
-                        </div>
+
+                            <Link to={"/cart"} className="position-relative me-3 dropdown-toggle"
+                                  data-bs-toggle="dropdown" aria-expanded="false">
+                                <BsCartCheckFill className='text-color text-28'/> <span
+                                className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{_.isEmpty(carts) ? 0 : carts.length}</span>
+                            </Link>
+                            <ul className="dropdown-menu dropdown-menu-end">
+                                <CartSmall carts = {carts}/>
+                            </ul>
                         <div className=" position-relative me-3">
                             <IoIosHeart className='text-color text-30'/> <span
                             className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>

@@ -4,7 +4,7 @@ import 'swiper/css/pagination';
 import './text.css';
 import {Virtual, Navigation, Pagination} from 'swiper/modules';
 import {Swiper, SwiperSlide} from 'swiper/react';
-import {getAllProducts, getAllProductsByCategoryId, getProductByAll} from "../Service/productService";
+import { getAllProductsByCategoryId, getProductByAll} from "../Service/productService";
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
@@ -13,8 +13,7 @@ import {getAllCategory} from "../Service/categoryService";
 import _ from "lodash";
 import Navbar from "./Navbar";
 import {Link} from "react-router-dom";
-import {BsFillCartPlusFill} from "react-icons/bs";
-import {FaRegEye} from "react-icons/fa";
+import { FaEye } from "react-icons/fa";
 
 const Home = () => {
     const [products, setProducts] = useState([]);
@@ -343,7 +342,6 @@ const Home = () => {
 
                     {/*Shop Product Start*/}
                     <div className="col-lg-10 col-md-12">
-                        <div className='container'></div>
                         <div className="row pb-3">
                             <div className="pb-1">
                                 <div className="d-flex align-items-center justify-content-between mb-4">
@@ -399,8 +397,6 @@ const Home = () => {
                                     return (
                                         <div className="col-lg-2 col-md-6 col-sm-12 pb-1" key={index}>
                                             <div className="card product-item border mb-4">
-                                                <Link to={`/product-detail/${product.id}`}
-                                                      className="btn text-dark p-0">
                                                     <div
                                                         className="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
                                                         <img className="img-fluid w-100" src={product.thumbnail}
@@ -415,14 +411,11 @@ const Home = () => {
                                                             </h6>
                                                         </div>
                                                     </div>
-                                                </Link>
-                                                <div className="card-footer bg-light border">
-                                                    <div
-                                                         className="btn btn-sm text-dark p-0 ps-1 d-flex align-items-center">
-                                                        <BsFillCartPlusFill
-                                                            className='text-color text-18 text-18 me-1'/>
-                                                        <span className='text-18'>Thêm giỏ hàng</span>
-                                                    </div>
+                                                    <div className="card-footer bg-light">
+                                                        <Link to={`/product-detail/${product.id}`} className="text-dark d-flex align-items-center text-decoration-none">
+                                                            <FaEye className='text-color text-18 me-3'/>
+                                                            <h5 className='mt-1'>Chi tiết</h5>
+                                                        </Link>
                                                 </div>
                                             </div>
                                         </div>

@@ -37,7 +37,7 @@ const Sidebar = () => {
                         <Link to={"favorite"} className='text-decoration-none'>Yêu thích</Link></ol>
                     <ol>
                         <BsCartCheckFill className='text-color me-3 mb-1'/>
-                        <Link to={"cart"} className='text-decoration-none'>Giỏ hàng</Link></ol>
+                        <Link to={'carts'} className='text-decoration-none'>Giỏ hàng</Link></ol>
                     <ol>
                         <FaRegCreditCard className='text-color me-3 mb-1'/>
                         <Link to={"payment"} className='text-decoration-none'>Thanh toán</Link>

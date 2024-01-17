@@ -12,6 +12,7 @@ import _ from "lodash";
 import {editAccountRedux} from "../../features/auth/authSlice";
 
 
+
 const AccountDetail = () => {
     const accountLogin = useSelector((state) => state.auth.userLogin);
 

@@ -8,14 +8,12 @@ import {Link} from "react-router-dom";
 const ProductByShop = () => {
     const account = useSelector((state) => state.auth.userLogin);
     const [products, setProducts] = useState([]);
-    const [productId, setProductId] = useState(0);
     const [categories, setCategories] = useState([]);
     const [nameSearch, setNameSearch] = useState("");
     const [colorId, setColorId] = useState(0);
     const [sizeId, setSizeId] = useState(0);
     const [page, setPage] = useState("");
     const [sort, setSort] = useState("");
-    const [direction, setDirection] = useState("");
 
 
     useEffect(() => {
@@ -48,7 +46,6 @@ const ProductByShop = () => {
     const handleNameSearch = (e) => {
         setNameSearch(e.target.value);
     }
-
 
     return (
         <div className='col-9' style={{marginLeft: "25%"}}>
