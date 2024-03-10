@@ -7,7 +7,7 @@ import {Link} from "react-router-dom";
 const ProductShop = (account) => {
     const [products, setProducts] = useState([]);
     useEffect(() => {
-        getProductsByOwner(account.id, 0, 0,"", 0).then(res => {
+        getProductsByOwner(account.id,"", 0).then(res => {
             setProducts(res.data.content)
         }).catch(err => {
             console.log(err)

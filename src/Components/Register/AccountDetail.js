@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import '../test.css';
 import {getDownloadURL, ref, uploadBytes} from 'firebase/storage';
 import {imageDb} from '../FireBase/ConfigFirebase';
 import {v4} from 'uuid';

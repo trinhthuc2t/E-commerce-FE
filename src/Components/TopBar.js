@@ -4,7 +4,7 @@ import {FaFacebookMessenger} from "react-icons/fa";
 import {IoMenu, IoNotifications} from "react-icons/io5";
 import {RiLockPasswordLine} from "react-icons/ri";
 import {AiOutlineInfoCircle} from "react-icons/ai";
-import {IoIosHeart, IoMdLogIn} from "react-icons/io";
+import {IoMdLogIn} from "react-icons/io";
 import {Link} from "react-router-dom";
 import {BsCartCheckFill} from "react-icons/bs";
 import {useDispatch, useSelector} from "react-redux";
@@ -32,44 +32,60 @@ const TopBar = () => {
                             className="text-color border px-3 mr-1">E</span>Shopper</h1>
                     </Link>
                 </div>
-                <div className="col-lg-6 col-6 text-left">
+                <div className="col-lg-6 col-6 text-left mt-2">
                     <div className="input-group">
                         <input type="text" className="form-control border rounded-5" placeholder="Search for products"/>
                     </div>
                 </div>
-                <div className="col-lg-3 col-6 text-right d-flex align-items-center pe-5">
+                <div className="col-lg-3 col-6 text-right d-flex align-items-center justify-content-end">
                     <div className='d-flex justify-content-ecenter me-3 mt-2'>
-
-                            <Link to={"/cart"} className="position-relative me-3 dropdown-toggle"
-                                  data-bs-toggle="dropdown" aria-expanded="false">
-                                <BsCartCheckFill className='text-color text-28'/> <span
+                        <div className="position-relative me-3 dropdown-toggle" data-bs-toggle="dropdown"
+                             aria-expanded="false">
+                            <BsCartCheckFill className='text-color text-28'/>
+                            <span
                                 className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{_.isEmpty(carts) ? 0 : carts.length}</span>
-                            </Link>
-                            <ul className="dropdown-menu dropdown-menu-end">
-                                <CartSmall carts = {carts}/>
-                            </ul>
-                        <div className=" position-relative me-3">
-                            <IoIosHeart className='text-color text-30'/> <span
-                            className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
                         </div>
-                        <div className=" position-relative me-3">
-                            <FaFacebookMessenger className='text-color text-28'/> <span
-                            className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+                        <ul className="dropdown-menu dropdown-menu-end">
+                            <CartSmall carts={carts}/>
+                        </ul>
+                        <div className="position-relative me-3 dropdown-toggle" data-bs-toggle="dropdown"
+                             aria-expanded="false">
+                            <FaFacebookMessenger className='text-color text-28'/>
+                            <span
+                                className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">2</span>
                         </div>
-                        <div className=" position-relative me-3">
-                            <IoNotifications className='text-color text-30'/> <span
-                            className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+                        <ul className="dropdown-menu dropdown-menu-end">
+                            <div className='mx-3'>
+                                <p>Message</p>
+                                <div className='d-flex justify-content-center'>
+                                    <Link to={"/profile/message"} className='btn btn-primary '>Xem tất cả</Link>
+                                </div>
+                            </div>
+                        </ul>
+                        <div className="position-relative me-3 dropdown-toggle" data-bs-toggle="dropdown"
+                             aria-expanded="false">
+                            <IoNotifications className='text-color text-30'/>
+                            <span
+                                className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">7</span>
                         </div>
+                        <ul className="dropdown-menu dropdown-menu-end">
+                            <div className='mx-3'>
+                                <p>Notification</p>
+                                <div className='d-flex justify-content-center'>
+                                    <Link to={"/profile/notification"} className='btn btn-primary '>Xem tất cả</Link>
+                                </div>
+                            </div>
+                        </ul>
                     </div>
-                    <div className="btn border rounded-5">
+                    <div>
                             <span className="dropdown-toggle text-nav text-color" role="button"
                                   id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src={!_.isEmpty(account) ? account.avatar : avt} width={40} height={40}
+                                <img src={!_.isEmpty(account) ? account.avatar : avt} width={60} height={60}
                                      className='border rounded-circle my-1' alt=""/>
-                               <IoMenu className='text-32'/>
+                               {/*<IoMenu className='text-32'/>*/}
                             </span>
 
-                        <ul className="dropdown-menu mt-3" aria-labelledby="dropdownMenuLink">
+                        <ul className="dropdown-menu mt-4" aria-labelledby="dropdownMenuLink">
 
                             {!_.isEmpty(account) ?
                                 <>

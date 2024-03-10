@@ -35,6 +35,9 @@
 .text-16{
     font-size: 16px;
 }
-a.dropdown-toggle::after {
+div.dropdown-toggle::after {
+    display: none;
+}
+span.dropdown-toggle::after {
     display: none;
 }

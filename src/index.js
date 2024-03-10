@@ -8,16 +8,19 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min';
 import {Provider} from "react-redux";
 import store from "./store";
+import {WebSocketProvider} from "./context/WebSocketContext";
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <Provider store={store}>
+        <WebSocketProvider>
         <BrowserRouter>
             {/*<React.StrictMode>*/}
                 <App/>
             {/*</React.StrictMode>*/}
         </BrowserRouter>
+        </WebSocketProvider>
     </Provider>
 );
 

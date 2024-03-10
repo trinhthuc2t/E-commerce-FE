@@ -13,6 +13,7 @@ import AccountDetail from "./Components/Register/AccountDetail";
 import ProductByShop from "./Components/Product/ProductByShop";
 import EditProduct from "./Components/Product/EditProduct";
 import Cart from "./Components/Product/Cart";
+import Payment from "./Components/Product/Payment";
 
 
 function App() {
@@ -21,15 +22,15 @@ function App() {
             <TopBar/>
             <Routes>
                 <Route path={"/"} element={<Home/>}/>
-                <Route path={"/product-detail/:productId"} element={<ProductsDetail/>}/>
-                <Route path={"/login"} element={<Login/>}/>
+                <Route path={"/product-detail/:productId"} element={<ProductsDetail/>}/><Route path={"/login"} element={<Login/>}/>
                 <Route path={"/Register"} element={<Register/>}/>
-                <Route path={"/cart"} element={<Cart/>}/>
                 <Route path={"/profile/"} element={<Profile/>}>
                     <Route path={"information"} element={<AccountDetail/>}/>
                     <Route path={"message"} element={<Message/>}/>
                     <Route path={"notification"} element={<Notification/>}/>
                     <Route path={"shop-owner"} element={<ProductByShop/>}/>
+                    <Route path={"payment"} element={<Payment/>}/>
+                    <Route path={"carts"} element={<Cart/>}/>
                     <Route path={"edit/:productId"} element={<EditProduct/>}/>
                 </Route>
             </Routes>

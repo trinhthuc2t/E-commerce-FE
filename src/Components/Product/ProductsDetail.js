@@ -167,11 +167,11 @@ const ProductsDetail = () => {
                         </a>
                     </div>
 
-                    <div className="col-lg-7 pb-5 text-left mt-4">
+                    <div className="col-lg-7 text-left mt-4">
                         {product && product.name ? (
                             <>
                                 <h3>{product.name}</h3>
-                                <div className="d-flex mb-3">
+                                <div className="d-flex">
                                     <a  href="#rv" className='d-flex align-items-center text-decoration-none text-warning'>
                                         <b className="pt-1  text-18 me-2 mt-1">{avg ? avg.toFixed(1) : 0} </b>
                                         <small className="pt-1 text-18"><StarsReview rating={avg}/></small>
@@ -300,7 +300,7 @@ const ProductsDetail = () => {
 
                     <div className="row">
 
-                        <h3 className="mb-4 pt-100" id="rv">Đánh giá sản phẩm</h3>
+                        <h3 className="pt-100" id="rv">Đánh giá sản phẩm</h3>
 
                         {!_.isEmpty(reviews) && reviews.map((r, index) => {
                             return (

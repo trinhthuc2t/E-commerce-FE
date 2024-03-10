@@ -10,8 +10,8 @@ const getAllImageByProductId = (id) => {
     return axios.get(`http://localhost:8080/api/image/${id}`)
 }
 
-const getProductsByOwner = (id, colorId, sizeId,nameSearch, page) => {
-    return axios.get(`${API_URL}/by-owner/${id}?colorId=${colorId}&sizeId=${sizeId}&nameSearch=${nameSearch}&page=${page}`)
+const getProductsByOwner = (id,nameSearch, page) => {
+    return axios.get(`${API_URL}/by-owner/${id}?nameSearch=${nameSearch}&page=${page}`)
 }
 
 const getAllProductsByCategoryId = (id) => {

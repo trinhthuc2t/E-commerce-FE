@@ -4,7 +4,6 @@ import {Link} from "react-router-dom";
 import {BsCartCheckFill, BsMessenger} from "react-icons/bs";
 import { MdOutlineCircleNotifications, MdStorefront} from "react-icons/md";
 import {RiBillLine, RiLockPasswordLine} from "react-icons/ri";
-import {IoHeart} from "react-icons/io5";
 import {TbShoppingBagEdit} from "react-icons/tb";
 import {useSelector} from "react-redux";
 
@@ -28,13 +27,8 @@ const Sidebar = () => {
                     </ol>
                     <ol>
                         <RiLockPasswordLine className='text-color me-3 mb-1'/>
-                        <Link to={"change-password"} className='text-decoration-none'>Đổi mật khẩu</Link></ol>
-                    {/*<ol>*/}
-                    {/*    <MdOutlineChangeCircle className='text-color me-3 mb-1'/>*/}
-                    {/*    <Link to={"edit-info"} className='text-decoration-none'>Đổi thông tin cá nhân</Link></ol>*/}
-                    <ol>
-                        <IoHeart className='text-color me-3 mb-1'/>
-                        <Link to={"favorite"} className='text-decoration-none'>Yêu thích</Link></ol>
+                        <Link to={"change-password"} className='text-decoration-none'>Đổi mật khẩu</Link>
+                    </ol>
                     <ol>
                         <BsCartCheckFill className='text-color me-3 mb-1'/>
                         <Link to={'carts'} className='text-decoration-none'>Giỏ hàng</Link></ol>

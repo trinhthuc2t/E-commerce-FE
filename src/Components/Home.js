@@ -31,7 +31,6 @@ const Home = () => {
     useEffect(() => {
         getProductByAll(nameSearch, minPrice, maxPrice, colorId, sizeId, page, sort, direction).then(res => {
             setProducts(res.data.content)
-            console.log(res.data.content)
         }).catch(err => console.log(err))
     }, [nameSearch, minPrice, maxPrice, colorId, sizeId, page, sort, direction])
 
@@ -405,7 +404,7 @@ const Home = () => {
                                                     <div className="card-body border-left border-right text-center p-0">
                                                         <h6 className="text-truncate mb-1">{product.name}</h6>
                                                         <div className="d-flex justify-content-center">
-                                                            <h6>{product.price}</h6>
+                                                            <h6>{product.price.toLocaleString('vi', {currency: 'VND'})} VNĐ</h6>
                                                             <h6 className="text-muted ml-2">
                                                                 <del>$123.00</del>
                                                             </h6>

@@ -17,7 +17,7 @@ const ProductByShop = () => {
 
 
     useEffect(() => {
-        getProductsByOwner(account.id, colorId, sizeId,nameSearch, page).then(res => {
+        getProductsByOwner(account.id, nameSearch, page).then(res => {
             setProducts(res.data.content)
             console.log(res.data)
         }).catch(err => {
@@ -103,7 +103,7 @@ const ProductByShop = () => {
                         {!_.isEmpty(products) && products.map((p, index) => {
                                 return (
                                     <tr key={index}>
-                                        <th scope="row">{p.id + 1}</th>
+                                        <th scope="row">{index + 1}</th>
                                         <td ><img src={p.thumbnail} width={40} height={40} alt=""/></td>
                                         <td>{p.name}</td>
                                         <td>{p.price}</td>

@@ -27,6 +27,9 @@ const formatTimeAgo = (targetDate) => {
     }
 };
 
+const formatPrice = (val)=>{
+    return  new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(val);
 
+}
 
-export { formatTimeAgo };
+export { formatTimeAgo, formatPrice };
