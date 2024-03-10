@@ -1,0 +1,10 @@
+
+fjavascript:S1481"DRemove the declaration of the unused 'messageContainerRef' variable.(ú™Ñy8¯¨Ÿºâ1
+cjavascript:S1854"ARemove this useless assignment to variable "messageContainerRef".(ú™Ñy8¯¨Ÿºâ1
+•javascript:S6811j"mThe attribute aria-expanded is not supported by the role textbox. This role is implicit on the element input.(™ÕÅÿÿÿÿÿ8¯¨Ÿºâ1
+zjavascript:S6847r"RNon-interactive elements should not be assigned mouse or keyboard event listeners.(ÜåõÓıÿÿÿÿ8½¨Ÿºâ1
+‡javascript:S1082r"_Visible, non-interactive elements with click handlers must have at least one keyboard listener.(ÜåõÓıÿÿÿÿ8½¨Ÿºâ1
+vjavascript:S6847‘"RNon-interactive elements should not be assigned mouse or keyboard event listeners.(¨ä…›8½¨Ÿºâ1
+ƒjavascript:S1082‘"_Visible, non-interactive elements with click handlers must have at least one keyboard listener.(¨ä…›8¾¨Ÿºâ1
+{javascript:S6847¨"RNon-interactive elements should not be assigned mouse or keyboard event listeners.(òÓ”‘üÿÿÿÿ8¾¨Ÿºâ1
+ˆjavascript:S1082¨"_Visible, non-interactive elements with click handlers must have at least one keyboard listener.(òÓ”‘üÿÿÿÿ8¾¨Ÿºâ1

@@ -1,597 +1,464 @@
-import React, {useState} from 'react';
-import "./Font-css.css"
-import {Swiper, SwiperSlide} from 'swiper/react';
-import 'swiper/css';
+import React, {useEffect, useState} from 'react';
 import 'swiper/css';
 import 'swiper/css/pagination';
-
-import './swiper-css.css';
-
-// import required modules
-import { Pagination } from 'swiper/modules';
+import './text.css';
+import {Virtual, Navigation, Pagination} from 'swiper/modules';
+import {Swiper, SwiperSlide} from 'swiper/react';
+import { getAllProductsByCategoryId, getProductByAll} from "../Service/productService";
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import './swiper.css';
+import {getAllCategory} from "../Service/categoryService";
+import _ from "lodash";
+import Navbar from "./Navbar";
+import {Link} from "react-router-dom";
+import { FaEye } from "react-icons/fa";
 
 const Home = () => {
-    const [page, setPage] = useState(1)
+    const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [nameSearch, setNameSearch] = useState("");
+    const [minPrice, setMinPrice] = useState(0);
+    const [maxPrice, setMaxPrice] = useState(0);
+    const [colorId, setColorId] = useState(0);
+    const [sizeId, setSizeId] = useState(0);
+    const [page, setPage] = useState("");
+    const [sort, setSort] = useState("");
+    const [direction, setDirection] = useState("");
+    const [selectedOptionPrice, setSelectedOptionPrice] = useState('all');
+
+    useEffect(() => {
+        getProductByAll(nameSearch, minPrice, maxPrice, colorId, sizeId, page, sort, direction).then(res => {
+            setProducts(res.data.content)
+        }).catch(err => console.log(err))
+    }, [nameSearch, minPrice, maxPrice, colorId, sizeId, page, sort, direction])
+
+
+    const handleNameSearch = (e) => {
+        setNameSearch(e.target.value)
+    }
+    const handlePriceSearch = (e) => {
+        const selectedValue = e.target.value;
+        switch (selectedValue) {
+            case 'all':
+                setMinPrice(0);
+                setMaxPrice(0);
+                break;
+            case '0-20':
+                setMinPrice(0);
+                setMaxPrice(20);
+                break;
+            case '20-50':
+                setMinPrice(20);
+                setMaxPrice(50);
+                break;
+            case '50-100':
+                setMinPrice(50);
+                setMaxPrice(100);
+                break;
+            case '100-120':
+                setMinPrice(100);
+                setMaxPrice(120);
+                break;
+            case '120':
+                setMinPrice(120);
+                setMaxPrice(0);
+                break;
+            default:
+                break;
+        }
+        setSelectedOptionPrice(selectedValue);
+
+    };
+
+    const handleColorNameSearch = (e) => {
+        setColorId(e.target.value)
+    }
+    const handleSort = (e) => {
+        setSort(e.target.value)
+    }
+    const handleDirection = (e) => {
+        setDirection(e.target.value)
+    }
+    const handleSizeNameSearch = (e) => {
+        setSizeId(e.target.value)
+    }
+    const getAllProductsByCategory = (id) => {
+        getAllProductsByCategoryId(id).then(res => {
+            setProducts(res.data.content)
+            console.log(res.data.content)
+        }).catch((err => {
+            console.log(err)
+        }))
+    }
+
+
+    useEffect(() => {
+        getAllCategory().then(res => {
+            setCategories(res.data)
+        }).catch((err) => {
+            console.log(err);
+        })
+    }, []);
+    useEffect(() => {
+        const defaultOption = document.getElementById('size-all');
+        defaultOption.checked = true;
+        setSizeId(0);
+    }, []);
+    useEffect(() => {
+        const defaultOption = document.getElementById('color-all');
+        defaultOption.checked = true;
+        setColorId(0);
+    }, []);
     return (
-        <div style={{paddingTop: 100}}>
+        <div>
+            <Navbar/>
 
+            {/*Categories Start*/}
+            <div className="container-fluid pt-1">
 
-            <div className='bg-white container-xxl my-5 py-3'>
-                {/*Category Start*/}
-                <div className="container">
-                    <div className="row g-2 py-0">
+                <div className="row px-xl-5 pb-3">
+                    <Swiper
+                        modules={[Virtual, Navigation, Pagination]}
+                        slidesPerView={5}
+                        // centeredSlides={true}
+                        spaceBetween={10}
+                        pagination={{
+                            type: 'bullets',
+                        }}
+                        loop={true}
+                        autoplay={{delay: 1000}}
+                        navigation={true}
+                        virtual
+                    >
+                        {!_.isEmpty(categories) && categories.map((c, index) => (
+                            <SwiperSlide key={c} virtualIndex={index}>
+                                <div className="pb-1" onClick={() => {
+                                    getAllProductsByCategory(c.id)
+                                }}>
+                                    <div className="btn border mb-4">
+                                        <div className=" position-relative overflow-hidden mb-3">
+                                            <img className="img-fluid" src={c.image}
+                                                 style={{height: 200, width: "300px"}}
+                                                 alt="categories"/>
+                                        </div>
+                                        <h5 className="font-weight-semi-bold m-0 mb-3">{c.name}</h5>
+                                    </div>
+                                </div>
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
 
-                        <Swiper
-                            slidesPerView={6}
-                            spaceBetween={30}
-                            pagination={{
-                                clickable: true,
-                            }}
-                            modules={[Pagination]}
-                            className="mySwiper"
-                        >
-                            <SwiperSlide>
-                                <div className="my-3">
-                                    <p className="btn btn-outline-success border-white text-center rounded-4 my-0"
-                                       href="">
-                                        <div className="p-2">
-                                            <div className="icon mb-3 rounded-circle bg-white ">
-                                                <img className="img-fluid p-4" src="img/icon-apartment.png" alt="Icon"/>
-                                            </div>
-                                            <h6>Apartment</h6>
-                                            <span className='text-color-css'>123 Properties</span>
-                                        </div>
-                                    </p>
-                                </div>
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <div className=" my-3">
-                                    <p className="btn btn-outline-success border-white text-center rounded-4 my-0"
-                                       href="">
-                                        <div className="p-2">
-                                            <div className="icon mb-3 rounded-circle bg-white ">
-                                                <img className="img-fluid p-4" src="img/icon-villa.png" alt="Icon"/>
-                                            </div>
-                                            <h6>Villa</h6>
-                                            <span>123 Properties</span>
-                                        </div>
-                                    </p>
-                                </div>
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <div className=" my-3">
-                                    <p className="btn btn-outline-success border-white text-center rounded-4 my-0"
-                                       href="">
-                                        <div className="p-2">
-                                            <div className="icon mb-3 rounded-circle bg-white ">
-                                                <img className="img-fluid p-4" src="img/icon-house.png" alt="Icon"/>
-                                            </div>
-                                            <h6>Home</h6>
-                                            <span>123 Properties</span>
-                                        </div>
-                                    </p>
-                                </div>
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <div className=" my-3">
-                                    <p className="btn btn-outline-success border-white text-center rounded-4 my-0"
-                                       href="">
-                                        <div className="p-2">
-                                            <div className="icon mb-3 rounded-circle bg-white ">
-                                                <img className="img-fluid p-4" src="img/icon-housing.png" alt="Icon"/>
-                                            </div>
-                                            <h6>Office</h6>
-                                            <span>123 Properties</span>
-                                        </div>
-                                    </p>
-                                </div>
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <div className=" my-3">
-                                    <p className="btn btn-outline-success border-white text-center rounded-4 my-0"
-                                       href="">
-                                        <div className="p-2">
-                                            <div className="icon mb-3 rounded-circle bg-white ">
-                                                <img className="img-fluid p-4" src="img/icon-building.png" alt="Icon"/>
-                                            </div>
-                                            <h6>Building</h6>
-                                            <span>123 Properties</span>
-                                        </div>
-                                    </p>
-                                </div>
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <div className=" my-3">
-                                    <p className="btn btn-outline-success border-white text-center rounded-4 my-0"
-                                       href="">
-                                        <div className="p-2">
-                                            <div className="icon mb-3 rounded-circle bg-white ">
-                                                <img className="img-fluid p-4" src="img/icon-neighborhood.png"
-                                                     alt="Icon"/>
-                                            </div>
-                                            <h6>Townhouse</h6>
-                                            <span>123 Properties</span>
-                                        </div>
-                                    </p>
-                                </div>
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <div className=" my-3">
-                                    <p className="btn btn-outline-success border-white text-center rounded-4 my-0"
-                                       href="">
-                                        <div className="p-2">
-                                            <div className="icon mb-3 rounded-circle bg-white ">
-                                                <img className="img-fluid p-4" src="img/icon-condominium.png"
-                                                     alt="Icon"/>
-                                            </div>
-                                            <h6>Shop</h6>
-                                            <span>123 Properties</span>
-                                        </div>
-                                    </p>
-                                </div>
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <div className="my-3">
-                                    <p className="btn btn-outline-success border-white text-center rounded-4 my-0"
-                                       href="">
-                                        <div className="p-2">
-                                            <div className="icon mb-3 rounded-circle bg-white ">
-                                                <img className="img-fluid p-4" src="img/icon-luxury.png" alt="Icon"/>
-                                            </div>
-                                            <h6>Garage</h6>
-                                            <span>123 Properties</span>
-                                        </div>
-                                    </p>
-                                </div>
-                            </SwiperSlide>
-
-                        </Swiper>
-                        {/*<div className="col-lg-2 col-sm-6 my-3">*/}
-                        {/*    <p className="btn btn-outline-success border-white text-center rounded-4 my-0" href="">*/}
-                        {/*        <div className="p-2">*/}
-                        {/*            <div className="icon mb-3 rounded-circle bg-white ">*/}
-                        {/*                <img className="img-fluid p-4" src="img/icon-apartment.png" alt="Icon"/>*/}
-                        {/*            </div>*/}
-                        {/*            <h6>Apartment</h6>*/}
-                        {/*            <span className='text-color-css'>123 Properties</span>*/}
-                        {/*        </div>*/}
-                        {/*    </p>*/}
-                        {/*</div>*/}
-                        {/*<div className="col-lg-2 col-sm-6 my-3">*/}
-                        {/*    <p className="btn btn-outline-success border-white text-center rounded-4 my-0" href="">*/}
-                        {/*        <div className="p-2">*/}
-                        {/*            <div className="icon mb-3 rounded-circle bg-white ">*/}
-                        {/*                <img className="img-fluid p-4" src="img/icon-villa.png" alt="Icon"/>*/}
-                        {/*            </div>*/}
-                        {/*            <h6>Villa</h6>*/}
-                        {/*            <span>123 Properties</span>*/}
-                        {/*        </div>*/}
-                        {/*    </p>*/}
-                        {/*</div>*/}
-                        {/*<div className="col-lg-2 col-sm-6 my-3">*/}
-                        {/*    <p className="btn btn-outline-success border-white text-center rounded-4 my-0" href="">*/}
-                        {/*        <div className="p-2">*/}
-                        {/*            <div className="icon mb-3 rounded-circle bg-white ">*/}
-                        {/*                <img className="img-fluid p-4" src="img/icon-house.png" alt="Icon"/>*/}
-                        {/*            </div>*/}
-                        {/*            <h6>Home</h6>*/}
-                        {/*            <span>123 Properties</span>*/}
-                        {/*        </div>*/}
-                        {/*    </p>*/}
-                        {/*</div>*/}
-                        {/*<div className="col-lg-2 col-sm-6 my-3">*/}
-                        {/*    <p className="btn btn-outline-success border-white text-center rounded-4 my-0" href="">*/}
-                        {/*        <div className="p-2">*/}
-                        {/*            <div className="icon mb-3 rounded-circle bg-white ">*/}
-                        {/*                <img className="img-fluid p-4" src="img/icon-housing.png" alt="Icon"/>*/}
-                        {/*            </div>*/}
-                        {/*            <h6>Office</h6>*/}
-                        {/*            <span>123 Properties</span>*/}
-                        {/*        </div>*/}
-                        {/*    </p>*/}
-                        {/*</div>*/}
-                        {/*<div className="col-lg-2 col-sm-6 my-3">*/}
-                        {/*    <p className="btn btn-outline-success border-white text-center rounded-4 my-0" href="">*/}
-                        {/*        <div className="p-2">*/}
-                        {/*            <div className="icon mb-3 rounded-circle bg-white ">*/}
-                        {/*                <img className="img-fluid p-4" src="img/icon-building.png" alt="Icon"/>*/}
-                        {/*            </div>*/}
-                        {/*            <h6>Building</h6>*/}
-                        {/*            <span>123 Properties</span>*/}
-                        {/*        </div>*/}
-                        {/*    </p>*/}
-                        {/*</div>*/}
-                        {/*<div className="col-lg-2 col-sm-6 my-3">*/}
-                        {/*    <p className="btn btn-outline-success border-white text-center rounded-4 my-0" href="">*/}
-                        {/*        <div className="p-2">*/}
-                        {/*            <div className="icon mb-3 rounded-circle bg-white ">*/}
-                        {/*                <img className="img-fluid p-4" src="img/icon-neighborhood.png" alt="Icon"/>*/}
-                        {/*            </div>*/}
-                        {/*            <h6>Townhouse</h6>*/}
-                        {/*            <span>123 Properties</span>*/}
-                        {/*        </div>*/}
-                        {/*    </p>*/}
-                        {/*</div>*/}
-                        {/*<div className="col-lg-2 col-sm-6 my-3">*/}
-                        {/*    <p className="btn btn-outline-success border-white text-center rounded-4 my-0" href="">*/}
-                        {/*        <div className="p-2">*/}
-                        {/*            <div className="icon mb-3 rounded-circle bg-white ">*/}
-                        {/*                <img className="img-fluid p-4" src="img/icon-condominium.png" alt="Icon"/>*/}
-                        {/*            </div>*/}
-                        {/*            <h6>Shop</h6>*/}
-                        {/*            <span>123 Properties</span>*/}
-                        {/*        </div>*/}
-                        {/*    </p>*/}
-                        {/*</div>*/}
-                        {/*<div className="col-lg-2 col-sm-6 my-3">*/}
-                        {/*    <p className="btn btn-outline-success border-white text-center rounded-4 my-0" href="">*/}
-                        {/*        <div className="p-2">*/}
-                        {/*            <div className="icon mb-3 rounded-circle bg-white ">*/}
-                        {/*                <img className="img-fluid p-4" src="img/icon-luxury.png" alt="Icon"/>*/}
-                        {/*            </div>*/}
-                        {/*            <h6>Garage</h6>*/}
-                        {/*            <span>123 Properties</span>*/}
-                        {/*        </div>*/}
-                        {/*    </p>*/}
-                        {/*</div>*/}
-                    </div>
                 </div>
             </div>
+            {/*Categories End*/}
 
 
-            {/*Category End*/}
+            {/*Shop Start*/}
+            <div className="container-fluid pt-5">
+                <div className="row px-xl-5">
+                    {/*Shop Sidebar Start*/}
+                    <div className="col-lg-2 col-md-12 mt-2">
+                        {/*Price Start*/}
+                        <div className="border-bottom mb-4 pb-4">
+                            <h5 className="font-weight-semi-bold mb-4">Filter by price</h5>
+                            <div className="d-flex align-items-center justify-content-between mb-3">
+                                <div>
+                                    <input type="radio" name="price" id="price-all" value="all"
+                                           checked={selectedOptionPrice === 'all'}
+                                           onChange={handlePriceSearch}/>
+                                    <label className="custom-control-label ms-3" htmlFor="price-all">All Price</label>
+                                </div>
+                                <span className="border rounded px-1">1000</span>
+                            </div>
+                            <div
+                                className=" d-flex align-items-center justify-content-between mb-3">
+                                <div>
+                                    <input type="radio" name="price" id="price-2" value="0-20"
+                                           onChange={handlePriceSearch}/>
+                                    <label className="custom-control-label ms-3" htmlFor="price-2">$0 - $20</label>
+                                </div>
+                                <span className="border rounded px-1">150</span>
+                            </div>
+                            <div
+                                className="d-flex align-items-center justify-content-between mb-3">
+                                <div>
+                                    <input type="radio" name="price" id="price-3" value="20-50"
+                                           onChange={handlePriceSearch}/>
+                                    <label className="custom-control-label ms-3" htmlFor="price-3">$20 - $50</label>
+                                </div>
+                                <span className="border rounded px-1">150</span>
+                            </div>
+                            <div
+                                className="d-flex align-items-center justify-content-between mb-3">
+                                <div>
+                                    <input type="radio" name="price" id="price-4" value="50-100"
+                                           onChange={handlePriceSearch}/>
+                                    <label className="custom-control-label ms-3" htmlFor="price-4">$50 - $100</label>
+                                </div>
+                                <span className="border rounded px-1">150</span>
+                            </div>
+                            <div
+                                className="d-flex align-items-center justify-content-between mb-3">
+                                <div>
+                                    <input type="radio" name="price" id="price-5" value="100-120"
+                                           onChange={handlePriceSearch}/>
+                                    <label className="custom-control-label ms-3" htmlFor="price-5">$100 - $120</label>
+                                </div>
+                                <span className="border rounded px-1">150</span>
+                            </div>
+                            <div
+                                className="d-flex align-items-center justify-content-between mb-3">
+                                <div>
+                                    <input type="radio" name="price" id="price-6" value="120"
+                                           onChange={handlePriceSearch}/>
+                                    <label className="custom-control-label ms-3" htmlFor="price-6">Trên $120</label>
+                                </div>
+                                <span className="border rounded px-1">150</span>
+                            </div>
 
-            {/*Search Start*/}
-            <div className="container-fluid mb-5 background-color-css" data-wow-delay="0.1s"
-                 style={{padding: "35px"}}>
-                <div className="container">
-                    <div className="row g-2">
-                        <div className="col-md-10">
-                            <div className="row g-2">
-                                <div className="col-md-4">
-                                    <input type="text" className="form-control border-0 py-3"
-                                           placeholder="Search Keyword"/>
+                        </div>
+                        {/*Price End*/}
+
+                        {/*Color Start*/}
+                        <div className="border-bottom mb-4 pb-4">
+                            <h5 className="font-weight-semi-bold mb-4">Filter by color</h5>
+                            <div
+                                className="d-flex align-items-center justify-content-between mb-3">
+                                <div>
+                                    <input type="radio" name="color" className="custom-control-input"
+                                           id="color-all" value="0" onChange={handleColorNameSearch}/>
+                                    <label className="custom-control-label ms-3" htmlFor="color-all">All Color</label>
                                 </div>
-                                <div className="col-md-4">
-                                    <select className="form-select border-0 py-3">
-                                        <option selected>Property Type</option>
-                                        <option value="1">Property Type 1</option>
-                                        <option value="2">Property Type 2</option>
-                                        <option value="3">Property Type 3</option>
-                                    </select>
+                                <span className="border rounded px-1">1000</span>
+                            </div>
+                            <div
+                                className="d-flex align-items-center justify-content-between mb-3">
+                                <div>
+                                    <input type="radio" name="color" className="custom-control-input" id="color-1"
+                                           value="1" onChange={handleColorNameSearch}/>
+                                    <label className="custom-control-label ms-3" htmlFor="color-1">Black</label>
                                 </div>
-                                <div className="col-md-4">
-                                    <select className="form-select border-0 py-3">
-                                        <option selected>Location</option>
-                                        <option value="1">Location 1</option>
-                                        <option value="2">Location 2</option>
-                                        <option value="3">Location 3</option>
-                                    </select>
+                                <span className="border rounded px-1">1000</span>
+                            </div>
+                            <div
+                                className="d-flex align-items-center justify-content-between mb-3">
+                                <div>
+                                    <input type="radio" name="color" className="custom-control-input" id="color-2"
+                                           value="2" onChange={handleColorNameSearch}/>
+                                    <label className="custom-control-label ms-3" htmlFor="color-2">White</label>
                                 </div>
+                                <span className="border rounded px-1">1000</span>
+                            </div>
+                            <div
+                                className="d-flex align-items-center justify-content-between mb-3">
+                                <div>
+                                    <input type="radio" name="color" className="custom-control-input" id="color-3"
+                                           value="3" onChange={handleColorNameSearch}/>
+                                    <label className="custom-control-label ms-3" htmlFor="color-3">Red</label>
+                                </div>
+                                <span className="border rounded px-1">1000</span>
+                            </div>
+                            <div
+                                className="d-flex align-items-center justify-content-between mb-3">
+                                <div>
+                                    <input type="radio" name="color" className="custom-control-input" id="color-4"
+                                           value="4" onChange={handleColorNameSearch}/>
+                                    <label className="custom-control-label ms-3" htmlFor="color-4">Blue</label>
+                                </div>
+                                <span className="border rounded px-1">1000</span>
+                            </div>
+                            <div
+                                className="d-flex align-items-center justify-content-between mb-3">
+                                <div>
+                                    <input type="radio" name="5" className="custom-control-input" id="color-5"
+                                           value="Green" onChange={handleColorNameSearch}/>
+                                    <label className="custom-control-label ms-3" htmlFor="color-5">Green</label>
+                                </div>
+                                <span className="border rounded px-1">1000</span>
+                            </div>
+
+                        </div>
+                        {/*Color End*/}
+
+                        {/*Size Start*/}
+                        <div className="mb-5">
+                            <h5 className="font-weight-semi-bold mb-4">Filter by size</h5>
+                            <div className="d-flex align-items-center justify-content-between mb-3">
+                                <div>
+                                    <input type="radio" name="size" className="custom-control-input"
+                                           id="size-all" value="0" onChange={handleSizeNameSearch}/>
+                                    <label className="custom-control-label ms-3" htmlFor="size-all">All Size</label>
+                                </div>
+                                <span className=" border rounded px-1">1000</span>
+                            </div>
+                            <div className="d-flex align-items-center justify-content-between mb-3">
+                                <div>
+                                    <input type="radio" name="size" className="custom-control-input" id="size-1"
+                                           value="5" onChange={handleSizeNameSearch}/>
+                                    <label className="custom-control-label ms-3" htmlFor="size-1">XS</label>
+                                </div>
+                                <span className=" border rounded px-1">1000</span>
+                            </div>
+                            <div className="d-flex align-items-center justify-content-between mb-3">
+                                <div>
+                                    <input type="radio" name="size" className="custom-control-input" id="size-2"
+                                           value="4" onChange={handleSizeNameSearch}/>
+                                    <label className="custom-control-label ms-3" htmlFor="size-2">S</label>
+                                </div>
+                                <span className=" border rounded px-1">1000</span>
+                            </div>
+                            <div className="d-flex align-items-center justify-content-between mb-3">
+                                <div>
+                                    <input type="radio" name="size" className="custom-control-input" id="size-3"
+                                           value="3" onChange={handleSizeNameSearch}/>
+                                    <label className="custom-control-label ms-3" htmlFor="size-3">L</label>
+                                </div>
+                                <span className=" border rounded px-1">1000</span>
+                            </div>
+                            <div className="d-flex align-items-center justify-content-between mb-3">
+                                <div>
+                                    <input type="radio" name="size" className="custom-control-input" id="size-4"
+                                           value="2" onChange={handleSizeNameSearch}/>
+                                    <label className="custom-control-label ms-3" htmlFor="size-4">XL</label>
+                                </div>
+                                <span className=" border rounded px-1">1000</span>
+                            </div>
+                            <div className="d-flex align-items-center justify-content-between mb-3">
+                                <div>
+                                    <input type="radio" name="size" className="custom-control-input" id="size-5"
+                                           value="1" onChange={handleSizeNameSearch}/>
+                                    <label className="custom-control-label ms-3" htmlFor="size-5">XXL</label>
+                                </div>
+                                <span className=" border rounded px-1">1000</span>
                             </div>
                         </div>
-                        <div className="col-md-2">
-                            <button className="btn btn-dark border-0 w-100 py-3">Search</button>
-                        </div>
+                        {/*Size End*/}
                     </div>
-                </div>
-            </div>
-            {/*Search End*/}
+                    {/*Shop Sidebar End*/}
 
-            {/*Property List Start*/}
-            <div className="container-xxl bg-white py-4">
-                <div className="container">
-                    <div className="tab-content">
-                        <div id="tab-1" className="tab-pane fade show p-0 active">
-                            <div className="row g-4">
-                                <div className="col-lg-4 col-md-6">
-                                    <div className="property-item rounded mx-0">
-                                        <div className="position-relative">
-                                            <a href=""><img className="img-fluid" src="img/property-1.jpg" alt=""/></a>
-                                            <div
-                                                className="background-color-css rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">For
-                                                Sell
-                                            </div>
-                                            <div
-                                                className="rounded-top text-color-css position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Appartment
-                                            </div>
-                                        </div>
-                                        <div className="p-4 pb-0">
-                                            <h5 className="text-color-css mb-3">$12,345</h5>
-                                            <a className="d-block h5 mb-2" href="">Golden Urban House For Sell</a>
-                                            <p><i className="fa fa-map-marker-alt text-color-css me-2"></i>123
-                                                Street, New
-                                                York, USA</p>
-                                        </div>
-                                        <div className="d-flex border-top">
-                                            <small className="flex-fill text-center border-end py-2"><i
-                                                className="fa fa-ruler-combined text-color-css me-2"></i>1000
-                                                Sqft</small>
-                                            <small className="flex-fill text-center border-end py-2"><i
-                                                className="fa fa-bed text-color-css me-2"></i>3 Bed</small>
-                                            <small className="flex-fill text-center py-2"><i
-                                                className="fa fa-bath text-color-css me-2"></i>2 Bath</small>
-                                        </div>
+
+                    {/*Shop Product Start*/}
+                    <div className="col-lg-10 col-md-12">
+                        <div className="row pb-3">
+                            <div className="pb-1">
+                                <div className="d-flex align-items-center justify-content-between mb-4">
+                                    <div className="col-8">
+                                        <input type="text" className="form-control" placeholder="Search by name"
+                                               onChange={handleNameSearch}/>
                                     </div>
-                                </div>
-                                <div className="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                                    <div className="property-item rounded overflow-hidden">
-                                        <div className="position-relative overflow-hidden">
-                                            <a href=""><img className="img-fluid" src="img/property-2.jpg" alt=""/></a>
-                                            <div
-                                                className="background-color-css rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">For
-                                                Rent
-                                            </div>
-                                            <div
-                                                className="bg-white rounded-top text-color-css position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Villa
-                                            </div>
-                                        </div>
-                                        <div className="p-4 pb-0">
-                                            <h5 className="text-color-css mb-3">$12,345</h5>
-                                            <a className="d-block h5 mb-2" href="">Golden Urban House For Sell</a>
-                                            <p><i className="fa fa-map-marker-alt text-color-css me-2"></i>123
-                                                Street, New
-                                                York, USA</p>
-                                        </div>
-                                        <div className="d-flex border-top">
-                                            <small className="flex-fill text-center border-end py-2"><i
-                                                className="fa fa-ruler-combined text-color-css me-2"></i>1000
-                                                Sqft</small>
-                                            <small className="flex-fill text-center border-end py-2"><i
-                                                className="fa fa-bed text-color-css me-2"></i>3 Bed</small>
-                                            <small className="flex-fill text-center py-2"><i
-                                                className="fa fa-bath text-color-css me-2"></i>2 Bath</small>
-                                        </div>
+                                    <div className='col-4 ms-0'>
+                                        <button className='btn border rounded-3 px-2 mx-2' >
+                                            Tất cả sản phẩm
+                                        </button>
+                                        <button className="btn border dropdown-toggle px-2 mx-2" type="button"
+                                                id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                                aria-expanded="false">
+                                            Sắp xếp
+                                        </button>
+                                        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li>
+                                                <button className="dropdown-item" value='sortTime'
+                                                        onClick={handleSort}>Sản phẩm mới
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button className="dropdown-item" value='sortPrice'
+                                                        onClick={handleSort}>Giá sản phẩm
+                                                </button>
+                                            </li>
+                                            <li><a className="dropdown-item" href="#">Mua nhiều</a></li>
+                                            <li><a className="dropdown-item" href="#">Đánh giá</a></li>
+                                        </ul>
+                                        <button className="btn border dropdown-toggle px-2 mx-2" type="button"
+                                                id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                                aria-expanded="false">
+                                            Sắp xếp
+                                        </button>
+                                        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li>
+                                                <button className="dropdown-item" onClick={handleDirection}>Tăng dần
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button className="dropdown-item" onClick={handleDirection}>Giảm dần
+                                                </button>
+                                            </li>
+                                        </ul>
                                     </div>
-                                </div>
-                                <div className="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                                    <div className="property-item rounded overflow-hidden">
-                                        <div className="position-relative overflow-hidden">
-                                            <a href=""><img className="img-fluid" src="img/property-3.jpg" alt=""/></a>
-                                            <div
-                                                className="background-color-css rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">For
-                                                Sell
-                                            </div>
-                                            <div
-                                                className="bg-white rounded-top text-color-css position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Office
-                                            </div>
-                                        </div>
-                                        <div className="p-4 pb-0">
-                                            <h5 className="text-color-css mb-3">$12,345</h5>
-                                            <a className="d-block h5 mb-2" href="">Golden Urban House For Sell</a>
-                                            <p><i className="fa fa-map-marker-alt text-color-css me-2"></i>123
-                                                Street, New
-                                                York, USA</p>
-                                        </div>
-                                        <div className="d-flex border-top">
-                                            <small className="flex-fill text-center border-end py-2"><i
-                                                className="fa fa-ruler-combined text-color-css me-2"></i>1000
-                                                Sqft</small>
-                                            <small className="flex-fill text-center border-end py-2"><i
-                                                className="fa fa-bed text-color-css me-2"></i>3 Bed</small>
-                                            <small className="flex-fill text-center py-2"><i
-                                                className="fa fa-bath text-color-css me-2"></i>2 Bath</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                                    <div className="property-item rounded overflow-hidden">
-                                        <div className="position-relative overflow-hidden">
-                                            <a href=""><img className="img-fluid" src="img/property-4.jpg" alt=""/></a>
-                                            <div
-                                                className="background-color-css rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">For
-                                                Rent
-                                            </div>
-                                            <div
-                                                className="bg-white rounded-top text-color-css position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Building
-                                            </div>
-                                        </div>
-                                        <div className="p-4 pb-0">
-                                            <h5 className="text-color-css mb-3">$12,345</h5>
-                                            <a className="d-block h5 mb-2" href="">Golden Urban House For Sell</a>
-                                            <p><i className="fa fa-map-marker-alt text-color-css me-2"></i>123
-                                                Street, New
-                                                York, USA</p>
-                                        </div>
-                                        <div className="d-flex border-top">
-                                            <small className="flex-fill text-center border-end py-2"><i
-                                                className="fa fa-ruler-combined text-color-css me-2"></i>1000
-                                                Sqft</small>
-                                            <small className="flex-fill text-center border-end py-2"><i
-                                                className="fa fa-bed text-color-css me-2"></i>3 Bed</small>
-                                            <small className="flex-fill text-center py-2"><i
-                                                className="fa fa-bath text-color-css me-2"></i>2 Bath</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                                    <div className="property-item rounded overflow-hidden">
-                                        <div className="position-relative overflow-hidden">
-                                            <a href=""><img className="img-fluid" src="img/property-5.jpg" alt=""/></a>
-                                            <div
-                                                className="background-color-css rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">For
-                                                Sell
-                                            </div>
-                                            <div
-                                                className="bg-white rounded-top text-color-css position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Home
-                                            </div>
-                                        </div>
-                                        <div className="p-4 pb-0">
-                                            <h5 className="text-color-css mb-3">$12,345</h5>
-                                            <a className="d-block h5 mb-2" href="">Golden Urban House For Sell</a>
-                                            <p><i className="fa fa-map-marker-alt text-color-css me-2"></i>123
-                                                Street, New
-                                                York, USA</p>
-                                        </div>
-                                        <div className="d-flex border-top">
-                                            <small className="flex-fill text-center border-end py-2"><i
-                                                className="fa fa-ruler-combined text-color-css me-2"></i>1000
-                                                Sqft</small>
-                                            <small className="flex-fill text-center border-end py-2"><i
-                                                className="fa fa-bed text-color-css me-2"></i>3 Bed</small>
-                                            <small className="flex-fill text-center py-2"><i
-                                                className="fa fa-bath text-color-css me-2"></i>2 Bath</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                                    <div className="property-item rounded overflow-hidden">
-                                        <div className="position-relative overflow-hidden">
-                                            <a href=""><img className="img-fluid" src="img/property-6.jpg" alt=""/></a>
-                                            <div
-                                                className="background-color-css rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">For
-                                                Rent
-                                            </div>
-                                            <div
-                                                className="bg-white rounded-top text-color-css position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Shop
-                                            </div>
-                                        </div>
-                                        <div className="p-4 pb-0">
-                                            <h5 className="text-color-css mb-3">$12,345</h5>
-                                            <a className="d-block h5 mb-2" href="">Golden Urban House For Sell</a>
-                                            <p><i className="fa fa-map-marker-alt text-color-css me-2"></i>123
-                                                Street, New
-                                                York, USA</p>
-                                        </div>
-                                        <div className="d-flex border-top">
-                                            <small className="flex-fill text-center border-end py-2"><i
-                                                className="fa fa-ruler-combined text-color-css me-2"></i>1000
-                                                Sqft</small>
-                                            <small className="flex-fill text-center border-end py-2"><i
-                                                className="fa fa-bed text-color-css me-2"></i>3 Bed</small>
-                                            <small className="flex-fill text-center py-2"><i
-                                                className="fa fa-bath text-color-css me-2"></i>2 Bath</small>
-                                        </div>
-                                    </div>
+
                                 </div>
                             </div>
-                        </div>
+
+                            {
+                                !_.isEmpty(products) ? products.map((product, index) => {
+                                    return (
+                                        <div className="col-lg-2 col-md-6 col-sm-12 pb-1" key={index}>
+                                            <div className="card product-item border mb-4">
+                                                    <div
+                                                        className="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                                                        <img className="img-fluid w-100" src={product.thumbnail}
+                                                             style={{height: 200}} alt=""/>
+                                                    </div>
+                                                    <div className="card-body border-left border-right text-center p-0">
+                                                        <h6 className="text-truncate mb-1">{product.name}</h6>
+                                                        <div className="d-flex justify-content-center">
+                                                            <h6>{product.price.toLocaleString('vi', {currency: 'VND'})} VNĐ</h6>
+                                                            <h6 className="text-muted ml-2">
+                                                                <del>$123.00</del>
+                                                            </h6>
+                                                        </div>
+                                                    </div>
+                                                    <div className="card-footer bg-light">
+                                                        <Link to={`/product-detail/${product.id}`} className="text-dark d-flex align-items-center text-decoration-none">
+                                                            <FaEye className='text-color text-18 me-3'/>
+                                                            <h5 className='mt-1'>Chi tiết</h5>
+                                                        </Link>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )
+                                }) : <h1>Chưa có sản phẩm nào</h1>
+                            }
 
 
-                    </div>
-                </div>
-                <br/>
-                {/*{!_.isEmpty(accounts) ?*/}
-                {/*<div className="col-12 mt-5 d-flex justify-content-center">*/}
-                {/*    <Pagination size="lg">{5}</Pagination>*/}
-
-                {/*    <Pagination count={10} size="large" variant="outlined" shape="rounded"*/}
-                {/*                color="primary"/>*/}
-                {/*    <Pagination>*/}
-                {/*        <Pagination.First/>*/}
-                {/*        <Pagination.Prev/>*/}
-                {/*        <Pagination.Item>{1}</Pagination.Item>*/}
-                {/*        <Pagination.Ellipsis/>*/}
-
-                {/*        <Pagination.Item>{10}</Pagination.Item>*/}
-                {/*        <Pagination.Item>{11}</Pagination.Item>*/}
-                {/*        <Pagination.Item active>{12}</Pagination.Item>*/}
-                {/*        <Pagination.Item>{13}</Pagination.Item>*/}
-                {/*        <Pagination.Item disabled>{14}</Pagination.Item>*/}
-
-                {/*        <Pagination.Ellipsis/>*/}
-                {/*        <Pagination.Item>{20}</Pagination.Item>*/}
-                {/*        <Pagination.Next/>*/}
-                {/*        <Pagination.Last/>*/}
-                {/*    </Pagination>*/}
-                {/*</div>*/}
-                {/*    :*/}
-                {/*    null*/}
-                {/*}*/}
-            </div>
-            {/*Property List End*/}
-
-
-            {/*Team Start*/}
-            <div className="container-xxl py-5">
-                <div className="container">
-                    <div className="row g-4">
-                        <div className="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                            <div className="team-item rounded overflow-hidden">
-                                <div className="position-relative">
-                                    <img className="img-fluid" src="img/team-1.jpg" alt=""/>
-                                    <div
-                                        className="position-absolute start-50 top-100 translate-middle d-flex align-items-center">
-                                        <a className="btn btn-square mx-1" href=""><i
-                                            className="fab fa-facebook-f"></i></a>
-                                        <a className="btn btn-square mx-1" href=""><i
-                                            className="fab fa-twitter"></i></a>
-                                        <a className="btn btn-square mx-1" href=""><i
-                                            className="fab fa-instagram"></i></a>
-                                    </div>
-                                </div>
-                                <div className="text-center p-4 mt-3">
-                                    <h5 className="fw-bold mb-0">Full Name</h5>
-                                    <small>Designation</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                            <div className="team-item rounded overflow-hidden">
-                                <div className="position-relative">
-                                    <img className="img-fluid" src="img/team-2.jpg" alt=""/>
-                                    <div
-                                        className="position-absolute start-50 top-100 translate-middle d-flex align-items-center">
-                                        <a className="btn btn-square mx-1" href=""><i
-                                            className="fab fa-facebook-f"></i></a>
-                                        <a className="btn btn-square mx-1" href=""><i
-                                            className="fab fa-twitter"></i></a>
-                                        <a className="btn btn-square mx-1" href=""><i
-                                            className="fab fa-instagram"></i></a>
-                                    </div>
-                                </div>
-                                <div className="text-center p-4 mt-3">
-                                    <h5 className="fw-bold mb-0">Full Name</h5>
-                                    <small>Designation</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                            <div className="team-item rounded overflow-hidden">
-                                <div className="position-relative">
-                                    <img className="img-fluid" src="img/team-3.jpg" alt=""/>
-                                    <div
-                                        className="position-absolute start-50 top-100 translate-middle d-flex align-items-center">
-                                        <a className="btn btn-square mx-1" href=""><i
-                                            className="fab fa-facebook-f"></i></a>
-                                        <a className="btn btn-square mx-1" href=""><i
-                                            className="fab fa-twitter"></i></a>
-                                        <a className="btn btn-square mx-1" href=""><i
-                                            className="fab fa-instagram"></i></a>
-                                    </div>
-                                </div>
-                                <div className="text-center p-4 mt-3">
-                                    <h5 className="fw-bold mb-0">Full Name</h5>
-                                    <small>Designation</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
-                            <div className="team-item rounded overflow-hidden">
-                                <div className="position-relative">
-                                    <img className="img-fluid" src="img/team-4.jpg" alt=""/>
-                                    <div
-                                        className="position-absolute start-50 top-100 translate-middle d-flex align-items-center">
-                                        <a className="btn btn-square mx-1" href=""><i
-                                            className="fab fa-facebook-f"></i></a>
-                                        <a className="btn btn-square mx-1" href=""><i
-                                            className="fab fa-twitter"></i></a>
-                                        <a className="btn btn-square mx-1" href=""><i
-                                            className="fab fa-instagram"></i></a>
-                                    </div>
-                                </div>
-                                <div className="text-center p-4 mt-3">
-                                    <h5 className="fw-bold mb-0">Full Name</h5>
-                                    <small>Designation</small>
-                                </div>
+                            <div className="col-12 pb-1">
+                                <nav aria-label="Page navigation">
+                                    <ul className="pagination justify-content-center mb-3">
+                                        <li className="page-item disabled">
+                                            <a className="page-link" href="#" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                                <span className="sr-only">Previous</span>
+                                            </a>
+                                        </li>
+                                        <li className="page-item active"><a className="page-link" href="#">1</a></li>
+                                        <li className="page-item"><a className="page-link" href="#">2</a></li>
+                                        <li className="page-item"><a className="page-link" href="#">3</a></li>
+                                        <li className="page-item">
+                                            <a className="page-link" href="#" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                                <span className="sr-only">Next</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
                             </div>
                         </div>
                     </div>
+                    {/*Shop Product End*/}
                 </div>
             </div>
-            {/*Team End*/}
+            {/*Shop End*/}
+
+
+            <div>
+
+            </div>
+
         </div>
-    );
+    )
+        ;
 };
 
 export default Home;
