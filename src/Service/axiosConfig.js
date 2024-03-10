@@ -1,6 +1,6 @@
 import axios from "axios";
 const tokenAxios = axios.create({
-baseURL: 'http://localhost:8080'
+baseURL: 'https://e-commerce-be-production.up.railway.app'
 })
 tokenAxios.interceptors.request.use(config => {
     const account = JSON.parse(localStorage.getItem("account"));
