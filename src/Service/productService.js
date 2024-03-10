@@ -1,13 +1,13 @@
 import axios from "axios";
 
-const API_URL = `https://e-commerce-be-production.up.railway.app//api/products`;
+const API_URL = `https://e-commerce-be-production.up.railway.app/api/products`;
 
 const getAllProducts = () => {
     return axios.get(API_URL)
 }
 
 const getAllImageByProductId = (id) => {
-    return axios.get(`https://e-commerce-be-production.up.railway.app//api/image/${id}`)
+    return axios.get(`https://e-commerce-be-production.up.railway.app/api/image/${id}`)
 }
 
 const getProductsByOwner = (id,nameSearch, page) => {
