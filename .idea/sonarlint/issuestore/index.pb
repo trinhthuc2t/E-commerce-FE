@@ -20,3 +20,7 @@ V
 &src/Service/loginAndRegisterService.js,7\e\7e363e7309f449bea43df811f95d3e2d197aa678
 F
 src/Components/Home.js,e\6\e6c4a86c6fb0f4bd029af3cd68b48dd3dc84bace
+S
+#src/Components/Register/Register.js,7\2\72944d57845a99c1e67d7608f518cd132a92bc95
+X
+(src/Components/Register/AccountDetail.js,8\b\8ba47609f019cca63a7ef2eef45040da813545fe

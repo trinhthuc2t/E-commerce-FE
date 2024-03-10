@@ -1,7 +1,7 @@
 import axios from "axios";
 import message from "../Components/Message";
 
-const API_URL = `https://e-commerce-be-production.up.railway.app/api/message/`;
+const API_URL = `https://e-commerce-be-production.up.railway.app//api/message/`;
 
 
 const getMesById = (idSend, idRec) => {

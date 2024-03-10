@@ -12,7 +12,8 @@ const Register = () => {
     const initialValues = {
         username: "",
         email: "",
-        password: ""
+        password: "",
+        role: {name:'ROLE_CUSTOMER'}
     };
 
 
