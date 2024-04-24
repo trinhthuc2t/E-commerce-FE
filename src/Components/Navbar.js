@@ -12,28 +12,28 @@ const Navbar = () => {
                             <div className="pb-1">
                                 <div className="d-flex align-items-center border mb-4 p-3">
                                     <h1 className="px-4"><IoCheckmarkDone className='text-color'/></h1>
-                                    <h5 className="m-0">Quality Product</h5>
+                                    <h5 className="m-0">Sản phẩm chất lượng</h5>
                                 </div>
                             </div>
                             <div className="pb-1">
                                 <div className="d-flex align-items-center border mb-4 p-3">
                                     <h1 className="px-4"><FaShippingFast className='text-color'/>
                                     </h1>
-                                    <h5 className="font-weight-semi-bold m-0">Free Shipping</h5>
+                                    <h5 className="font-weight-semi-bold m-0">Miễn phí vận chuyển</h5>
                                 </div>
                             </div>
                             <div className="pb-1">
                                 <div className="d-flex align-items-center border mb-4 p-3">
                                     <h1 className="px-4"><FaExchangeAlt className='text-color'/>
                                     </h1>
-                                    <h5 className="font-weight-semi-bold m-0">14-Day Return</h5>
+                                    <h5 className="font-weight-semi-bold m-0">Hoàn trả trong 14 ngày</h5>
                                 </div>
                             </div>
                             <div className="pb-1">
                                 <div className="d-flex align-items-center border mb-4 p-3">
                                     <h1 className="px-4"><FaPhoneVolume className='text-color'/>
                                     </h1>
-                                    <h5 className="font-weight-semi-bold m-0">24/7 Support</h5>
+                                    <h5 className="font-weight-semi-bold m-0">Hỗ trợ 24/7</h5>
                                 </div>
                             </div>
                         </div>

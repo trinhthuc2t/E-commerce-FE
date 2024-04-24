@@ -27,10 +27,11 @@ const TopBar = () => {
         <div className="container-fluid fixed-top bg-light ">
             <div className="row align-items-center py-3 pt-3">
                 <div className="col-lg-3 d-none d-lg-block">
-                    <Link to={"/"} className="text-decoration-none">
-                        <h1 className="m-0 display-5 fw-bold text-dark"><span
-                            className="text-color border px-3 mr-1">2T</span>Ecommerce</h1>
-                    </Link>
+                    <a href="/" className="text-decoration-none" >
+                        <h1 className="m-0 display-5 fw-bold text-dark">
+                            <span className="text-color border px-3 mr-1">2T</span>Ecommerce
+                        </h1>
+                    </a>
                 </div>
                 <div className="col-lg-6 col-6 text-left mt-2">
                     <div className="input-group">

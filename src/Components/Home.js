@@ -3,7 +3,7 @@ import 'swiper/css';
 import './text.css';
 import {Virtual, Navigation, Pagination} from 'swiper/modules';
 import {Swiper, SwiperSlide} from 'swiper/react';
-import { getAllProductsByCategoryId, getProductByAll} from "../Service/productService";
+import {getAllProducts, getAllProductsByCategoryId, getProductByAll} from "../Service/productService";
 import 'swiper/css/navigation';
 import './swiper.css';
 import _ from "lodash";
@@ -23,7 +23,7 @@ const Home = () => {
     const [page, setPage] = useState("");
     const [sort, setSort] = useState("");
     const [direction, setDirection] = useState("");
-    const [selectedOptionPrice, setSelectedOptionPrice] = useState('all');
+    const [selectedOptionPrice, setSelectedOptionPrice] = useState('0');
 
     useEffect(() => {
         getProductByAll(nameSearch, minPrice, maxPrice, colorId, sizeId, page, sort, direction).then(res => {
@@ -31,6 +31,33 @@ const Home = () => {
         }).catch(err => console.log(err))
     }, [nameSearch, minPrice, maxPrice, colorId, sizeId, page, sort, direction])
 
+    const getAll = () => {
+        setNameSearch('');
+        setMinPrice(0);
+        setMaxPrice(0);
+        setColorId(0);
+        setSizeId(0);
+        setSelectedOptionPrice('0');
+
+        // Đặt các radio về "All"
+        const priceAllOption = document.getElementById('price-all');
+        if (priceAllOption) {
+            priceAllOption.checked = true;
+        }
+        const colorAllOption = document.getElementById('color-all');
+        if (colorAllOption) {
+            colorAllOption.checked = true;
+        }
+        const sizeAllOption = document.getElementById('size-all');
+        if (sizeAllOption) {
+            sizeAllOption.checked = true;
+        }
+
+        const nameSearchInput = document.getElementById('name-search-input');
+        if (nameSearchInput) {
+            nameSearchInput.value = '';
+        }
+    };
 
     const handleNameSearch = (e) => {
         setNameSearch(e.target.value)
@@ -38,7 +65,7 @@ const Home = () => {
     const handlePriceSearch = (e) => {
         const selectedValue = e.target.value;
         switch (selectedValue) {
-            case 'all':
+            case '0':
                 setMinPrice(0);
                 setMaxPrice(0);
                 break;
@@ -71,6 +98,7 @@ const Home = () => {
 
     const handleColorNameSearch = (e) => {
         setColorId(e.target.value)
+
     }
     const handleSort = (e) => {
         setSort(e.target.value)
@@ -162,8 +190,8 @@ const Home = () => {
                             <h5 className="font-weight-semi-bold mb-4">Filter by price</h5>
                             <div className="d-flex align-items-center justify-content-between mb-3">
                                 <div>
-                                    <input type="radio" name="price" id="price-all" value="all"
-                                           checked={selectedOptionPrice === 'all'}
+                                    <input type="radio" name="price" id="price-all" value="0"
+                                           checked={selectedOptionPrice === '0'}
                                            onChange={handlePriceSearch}/>
                                     <label className="custom-control-label ms-3" htmlFor="price-all">All Price</label>
                                 </div>
@@ -269,8 +297,8 @@ const Home = () => {
                             <div
                                 className="d-flex align-items-center justify-content-between mb-3">
                                 <div>
-                                    <input type="radio" name="5" className="custom-control-input" id="color-5"
-                                           value="Green" onChange={handleColorNameSearch}/>
+                                    <input type="radio" name="color" className="custom-control-input" id="color-5"
+                                           value="5" onChange={handleColorNameSearch}/>
                                     <label className="custom-control-label ms-3" htmlFor="color-5">Green</label>
                                 </div>
                                 <span className="border rounded px-1">1000</span>
@@ -342,11 +370,11 @@ const Home = () => {
                             <div className="pb-1">
                                 <div className="d-flex align-items-center justify-content-between mb-4">
                                     <div className="col-8">
-                                        <input type="text" className="form-control" placeholder="Search by name"
+                                        <input type="text" className="form-control" placeholder="Search by name" id='name-search-input'
                                                onChange={handleNameSearch}/>
                                     </div>
                                     <div className='col-4 ms-0'>
-                                        <button className='btn border rounded-3 px-2 mx-2' >
+                                        <button className='btn border rounded-3 px-2 mx-2' onClick={()=>{getAll()}} >
                                             Tất cả sản phẩm
                                         </button>
                                         <button className="btn border dropdown-toggle px-2 mx-2" type="button"

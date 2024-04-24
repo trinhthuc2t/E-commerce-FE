@@ -75,8 +75,6 @@ const ProductsDetail = () => {
     useEffect(() => {
         getProductById(productId, colorId, sizeId).then((res => {
             setProductDetail(res.data);
-            console.log(res.data);
-
         })).catch((err => {
             console.log(err);
         }))
@@ -102,6 +100,7 @@ const ProductsDetail = () => {
         })).catch((err => {
             console.log(err);
         }))
+
     }, [productId])
 
     useEffect(() => {
@@ -316,7 +315,8 @@ const ProductsDetail = () => {
                                             <StarsReview rating={r.rating}/>
                                         </div>
                                         <p>{r.comment}
-                                            <small> - <i>{formatTimeAgo(new Date(r.createdAt))}</i></small>
+                                            <br/>
+                                            <small> <i>{formatTimeAgo(new Date(r.createdAt))}</i></small>
                                         </p>
                                     </div>
                                 </div>

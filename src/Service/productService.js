@@ -19,6 +19,10 @@ const saveProductByShop = (id, data) => {
     return axios.post(`${API_URL}/create/${id}`, data)
 }
 
+const deleteProductSv = (id) => {
+    return axios.delete(`${API_URL}/delete/${id}`)
+}
+
 const getAllProductsByCategoryId = (id) => {
     return axios.get(`${API_URL}/category/${id}`)
 }
@@ -36,5 +40,6 @@ export {
     getAllImageByProductId,
     getProductByAll,
     getProductsByOwner,
-    saveProductByShop
+    saveProductByShop,
+    deleteProductSv
 };

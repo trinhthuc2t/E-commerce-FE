@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
-import {getProductsByOwner} from "../../Service/productService";
+import {deleteProductSv, getProductsByOwner} from "../../Service/productService";
 import _ from "lodash";
 import {Link} from "react-router-dom";
 import {getAllCategory} from "../../Service/listItem";
+import Swal from "sweetalert2";
 
 const ProductByShop = () => {
     const account = useSelector((state) => state.auth.userLogin);
@@ -24,7 +25,6 @@ const ProductByShop = () => {
             console.log(err)
         })
     }, [colorId, sizeId, nameSearch])
-
     useEffect(() => {
         getAllCategory().then(res => {
             setCategories(res.data)
@@ -45,6 +45,24 @@ const ProductByShop = () => {
     }
     const handleNameSearch = (e) => {
         setNameSearch(e.target.value);
+    }
+    const deleteProduct = (id) => {
+        Swal.fire({
+            title: "Bạn chắc chắn muốn xóa sản phẩm?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Xác nhận!"
+        }).then((result) => {
+            deleteProductSv(id).then(res => {
+                console.log(res)
+            }).catch(err => {
+                console.log(err)
+            })
+        });
+
+
     }
 
     return (
@@ -110,6 +128,7 @@ const ProductByShop = () => {
                                         <td>{p.quantitySC}</td>
                                         <td style={p.quantitySC === 0 ? {color: "red"} : {color: "blue"}}>{p.quantitySC === 0 ? "Hết hàng" : "Còn hàng"}</td>
                                         <td><Link to={`/profile/edit/${p.id}`} className='btn btn-outline-warning px-3'>Sửa</Link>
+                                            <button className='btn btn-outline-danger px-3 ms-3' onClick={()=> {deleteProduct(p.id)}}>Delete</button>
                                         </td>
                                     </tr>
                                 )
