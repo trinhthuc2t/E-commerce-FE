@@ -1,0 +1,11 @@
+
+Hjavascript:S1128"%Remove this unused import of 'Field'.(½í¾Á8ÌÀ©‡ğ1
+Gjavascript:S1128"$Remove this unused import of 'Form'.(½í¾Á8ÍÀ©‡ğ1
+Ijavascript:S1128"&Remove this unused import of 'Formik'.(½í¾Á8ÍÀ©‡ğ1
+\javascript:S1481":Remove the declaration of the unused 'setSizeId' variable.(ÇÌ™l8ÍÀ©‡ğ1
+Yjavascript:S1854"7Remove this useless assignment to variable "setSizeId".(ÇÌ™l8ÍÀ©‡ğ1
+^javascript:S1481";Remove the declaration of the unused 'setColorId' variable.(âÃÑ’8ÍÀ©‡ğ1
+[javascript:S1854"8Remove this useless assignment to variable "setColorId".(âÃÑ’8ÎÀ©‡ğ1
+\javascript:S1481	"9Remove the declaration of the unused 'products' variable.(³Œìë8ÎÀ©‡ğ1
+Yjavascript:S1854	"6Remove this useless assignment to variable "products".(³Œìë8ÎÀ©‡ğ1
+javascript:S2234"gArguments 'sizeId' and 'colorId' have the same names but not the same order as the function parameters.(Çìœúıÿÿÿÿ8ÎÀ©‡ğ1

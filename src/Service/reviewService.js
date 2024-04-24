@@ -1,6 +1,7 @@
 import axios from "axios";
+import {baseUrl} from "./constanc";
 
-const API_URL = `https://e-commerce-be-production.up.railway.app/api/reviews`;
+const API_URL = `${baseUrl}/api/reviews`;
 
 const getReviewByProductId = (id)=>{
     return axios.get(`${API_URL}/${id}`)

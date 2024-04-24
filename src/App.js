@@ -11,9 +11,10 @@ import Message from "./Components/Message";
 import Notification from "./Components/Notification";
 import AccountDetail from "./Components/Register/AccountDetail";
 import ProductByShop from "./Components/Product/ProductByShop";
-import EditProduct from "./Components/Product/EditProduct";
+import EditProduct from "./Components/Product/CreateAndEditProduct/EditProduct";
 import Cart from "./Components/Product/Cart";
 import Payment from "./Components/Product/Payment";
+import CreateProduct from "./Components/Product/CreateAndEditProduct/CreateProduct";
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
                     <Route path={"payment"} element={<Payment/>}/>
                     <Route path={"carts"} element={<Cart/>}/>
                     <Route path={"edit/:productId"} element={<EditProduct/>}/>
+                    <Route path={"create"} element={<CreateProduct/>}/>
                 </Route>
             </Routes>
             <Footer/>

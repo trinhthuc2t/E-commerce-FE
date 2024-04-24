@@ -1,0 +1,13 @@
+
+Zjavascript:S1481"8Remove the declaration of the unused 'setPage' variable.(˜„–58’¿ëÈâ1
+Wjavascript:S1854"5Remove this useless assignment to variable "setPage".(˜„–58’¿ëÈâ1
+çjavascript:S6848†"ÂAvoid non-native interactive elements. If using native HTML is not possible, add an appropriate role and support for tabbing, mouse, keyboard, and touch inputs to an interactive content element.(óÔçÔ8’¿ëÈâ1
+ƒjavascript:S1082†"_Visible, non-interactive elements with click handlers must have at least one keyboard listener.(óÔçÔ8’¿ëÈâ1
+¢javascript:S6844ğ"øThe href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles.(Öğ Ùÿÿÿÿÿ8’¿ëÈâ1
+¢javascript:S6844ñ"øThe href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles.(˜½³ÿÿÿÿÿ8’¿ëÈâ1
+Gjavascript:S6479Š"Do not use Array index in keys(Ğ§©Üÿÿÿÿÿ8’¿ëÈâ1
+javascript:S6844«"øThe href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles.(££€ş8¢¿ëÈâ1
+javascript:S6844°"øThe href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles.(’›“Ô8¢¿ëÈâ1
+¢javascript:S6844±"øThe href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles.(©ß—öûÿÿÿÿ8¢¿ëÈâ1
+¢javascript:S6844²"øThe href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles.(ÃàÈøÿÿÿÿ8¢¿ëÈâ1
+¢javascript:S6844´"øThe href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles.(ä“†Òùÿÿÿÿ8¢¿ëÈâ1

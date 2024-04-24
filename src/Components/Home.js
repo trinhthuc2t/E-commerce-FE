@@ -6,11 +6,11 @@ import {Swiper, SwiperSlide} from 'swiper/react';
 import { getAllProductsByCategoryId, getProductByAll} from "../Service/productService";
 import 'swiper/css/navigation';
 import './swiper.css';
-import {getAllCategory} from "../Service/categoryService";
 import _ from "lodash";
 import Navbar from "./Navbar";
 import {Link} from "react-router-dom";
 import { FaEye } from "react-icons/fa";
+import {getAllCategory} from "../Service/listItem";
 
 const Home = () => {
     const [products, setProducts] = useState([]);
@@ -28,7 +28,6 @@ const Home = () => {
     useEffect(() => {
         getProductByAll(nameSearch, minPrice, maxPrice, colorId, sizeId, page, sort, direction).then(res => {
             setProducts(res.data.content)
-            console.log(res)
         }).catch(err => console.log(err))
     }, [nameSearch, minPrice, maxPrice, colorId, sizeId, page, sort, direction])
 

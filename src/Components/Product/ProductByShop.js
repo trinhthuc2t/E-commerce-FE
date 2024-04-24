@@ -2,8 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
 import {getProductsByOwner} from "../../Service/productService";
 import _ from "lodash";
-import {getAllCategory} from "../../Service/categoryService";
 import {Link} from "react-router-dom";
+import {getAllCategory} from "../../Service/listItem";
 
 const ProductByShop = () => {
     const account = useSelector((state) => state.auth.userLogin);
@@ -52,7 +52,7 @@ const ProductByShop = () => {
             <div className='container-fluid'>
                 <div className='position-fixed bg-light pt-3 d-flex justify-content-between' style={{width:"70%"}}>
                     <div className='col-2'>
-                        <p className='btn btn-primary'>Thêm sản phẩm</p>
+                        <Link to={`/profile/create`} className='btn btn-primary'>Thêm sản phẩm</Link>
                     </div>
                     <div className="col-6 me-2">
                         <input type="text" className="form-control" placeholder="Search by name"
